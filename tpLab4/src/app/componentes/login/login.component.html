@@ -6,7 +6,7 @@
 		<div class="agile_info">
 			<div class="w3l_form">
 				<div class="left_grid_info">
-					<h3>Welcome !</h3>
+					<h3>Bienvenido !</h3>
 					<h4>Lorem ipsum dolor sit amet, nulla consectetur adipiscing elit Sed.</h4>
 					<p> Nam eleifend velit eget dolor vestibulum ornare. Vestibulum est nulla, fermentum eget euismod et, tincidunt at dui. Nulla tellus nisl, semper id justo vel, rutrum finibus risus. Cras vel auctor odio.</p>
 					<ul class="social_section_1info">
@@ -20,41 +20,47 @@
 				</div>
 			</div>
 			<div class="w3_info">
-				<h2>Create An Account</h2>
-				<p>Vestibulum est nulla, fermentum eget euismod et, tincidunt at dui dolor sit.</p>
+				<h2>Crear una Cuenta</h2>
+				<p>Si ya tiene una cuenta ingrese aqui. 							
+					<button class="btn btn-danger btn-block" (click)="signIn()" >Ingresar</button >  
+				</p>
 					<div>
 						<div class="input-group">
 							<span><i class="fa fa-user" aria-hidden="true"></i></span>
-							<input type="text" [(ngModel)]="todo.name" name="name" placeholder="First Name" required=""> 
+							<input type="text" [(ngModel)]="todo.name" name="name" placeholder="Nombre" required=""> 
 						</div>
 						<div class="input-group">
 							<span><i class="fa fa-user" aria-hidden="true"></i></span>
 							<input type="text" [(ngModel)]="todo.lastName" name="lastName" 
-							  placeholder="lastName" required=""> 
+							  placeholder="Apellido" required=""> 
+						</div>
+					    <div class="input-group">
+							<span><i class="fa fa-user" aria-hidden="true"></i></span>
+							<input type="text" [(ngModel)]="todo.usrName" name="usrName" 
+							  placeholder="Nombre de Usuario" required=""> 
 						</div>
 						<div class="input-group">
 							<span><i class="fa fa-envelope" aria-hidden="true"></i></span>
-							<input type="email" [(ngModel)]="todo.email" name="email" placeholder="Email" required=""> 
+							<input type="email" [(ngModel)]="todo.email" name="email" placeholder="Correo Electronico" required=""> 
 						</div>
 						<div class="input-group">
 							<span><i class="fa fa-lock" aria-hidden="true"></i></span>
-							<input type="Password" [(ngModel)]="todo.password" name="password" placeholder="Password" required="">
+							<input type="Password" [(ngModel)]="todo.password" name="password" placeholder="Eliga una Contraseña" required="">
 						</div>
 						<div class="input-group">
 							<span><i class="fa fa-lock" aria-hidden="true"></i></span>
-							<input type="Password" [(ngModel)]="todo.Confpassword" name="Confpassword" placeholder="Confirm Password" >
+							<input type="Password" [(ngModel)]="todo.Confpassword" name="Confpassword" placeholder="Confirme la Contraseña">
 						</div>
-							<input type="checkbox" value="remember-me" /> <h4>Send me latest updates </h4>        
-							<button class="btn btn-danger btn-block" (click)="login()" >Create Account
-							</button >                
+							<input type="checkbox" [(ngModel)]="todo.remember" /> <h4>Recordarme
+							</h4>        
+							<button class="btn btn-danger btn-block" (click)="signUp()" >Crear Cuenta
+							</button>                
 					</div>
 			</div>
 			<div class="clear"></div>
-			</div>
-			
 		</div>
+			
+	</div>
 		<div class="footer">
-
- <p>&copy; Interior Register form 2018. All Rights Reserved | Design by <a href="https://w3layouts.com/" target="blank">W3layouts</a></p>
  </div>
 </div>

@@ -1,53 +1,43 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Response } from '@angular/http'; //ahcer el servicio
+import { Http, Response } from '@angular/http';
+import { UsuariosService } from '../../servicios/usuarios.service'; 
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   todo = {
 
   	name : '',
   	lastName:'',
+    usrName: '',
   	email:'',
   	password:'',
-  	Confpassword:''
+  	Confpassword:'',
+    remember:''
 
   }
 
-  constructor(public http: Http) { 
-
-    this.httpGetP().then(succes => console.log(succes))
-                   .catch(error => console.log(error))
+  constructor(public usrService: UsuariosService) { 
+    this.getUser('users');
   }
 
-  ngOnInit() {
+  getUser(endPoint: string) {
+    this.usrService.getUsers(endPoint).subscribe(
+       users => console.log(users)
+    )
   }
 
-  login(){
-  	console.log(this.todo); 
+  signUp(){
+    console.log(this.todo);
+    this.usrService.saveUser('users',this.todo).subscribe(
+       usersUpdated => console.log(usersUpdated)
+    )
   }
 
-  httpGetP (){ //heroku : xappia19861978@   danielpereira19861978@gmail.com
-    return this.http
-    .get('https://tplab4.herokuapp.com/users') 
-    .toPromise()
-    .then( this.extractData )
-    .catch( this.handleError );
-  }
-
-   private extractData ( res: Response )
-  {
-    return res.json() || {};
-  }
-
-  private handleError ( error: Response | any )
-  {
-    return error;
-  }
-
-
+ 
+ 
 }

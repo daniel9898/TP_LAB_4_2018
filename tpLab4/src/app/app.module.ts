@@ -6,12 +6,15 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './componentes/login/login.component';
-
+import { HttpService } from './servicios/http.service'; 
+import { UsuariosService } from './servicios/usuarios.service';
+import { PresentacionComponent } from './componentes/presentacion/presentacion.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    PresentacionComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +23,7 @@ import { LoginComponent } from './componentes/login/login.component';
     HttpModule
 
   ],
-  providers: [],
+  providers: [HttpService,UsuariosService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
