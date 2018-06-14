@@ -3,11 +3,16 @@ import { CommonModule } from '@angular/common';
 // importo del module principal
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from '../componentes/login/login.component';
+import { PresentacionComponent } from '../componentes/presentacion/presentacion.component';
+import { PrincipalComponent } from '../componentes/cliente/principal/principal.component';
 
-
-// declaro donde quiero que se dirija
 const MiRuteo = [
-{path: 'login' , component: LoginComponent}];
+
+{path: '' , component: PresentacionComponent},
+{path: 'login' , component: LoginComponent},
+{path: 'cliente' , component: PrincipalComponent},
+
+];
 
 @NgModule({
   imports: [
