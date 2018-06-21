@@ -13,19 +13,13 @@ export class CustomHttpService {
   constructor(public http: Http) { }
 
   runGet(endPoint: string){
-  	return this.http.get(`${this.url}${endPoint}`)
-  	                .pipe(
-	  	                	map((response: any) => response.json())),
-	  	                    catchError(err => Observable.throw(err.json().error || 'Server error')
-  	                      )
-	             
+  	return this.http.get(`${this.url}${endPoint}`);        
   }
 
   runPost(endPoint: string, data: any){
-    return this.http.post(`${this.url}${endPoint}`,data)
-  	                .pipe(
-  	                	   map((response: any) => response.json())),
-  	                       catchError(err => Observable.throw(err.json().error || 'Server error')
-  	                      )
+    return this.http.post(`${this.url}${endPoint}`,data);
+  	                /*.pipe( map((response: any) => response.json())),
+  	                       catchError(err => Observable.throw(err.json().error || 'Server error'));*/
   }
+
 }

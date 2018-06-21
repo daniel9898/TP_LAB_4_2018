@@ -16,6 +16,10 @@ export class UsuariosService {
     return this.miHttp.runPost(endPoint, data);
   }
 
+  signIn(endPoint: string, data: any){
+    return this.miHttp.runPost(endPoint, data);
+  }
+
   /*private extractData ( res: Response ){
     return res.json() || {};
   }

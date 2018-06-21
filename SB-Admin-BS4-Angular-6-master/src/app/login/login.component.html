@@ -3,21 +3,42 @@
         <div class="col-md-4">
             <img src="assets/images/logo.png" width="150px" class="user-avatar" />
             <h1>Iniciar Sesión</h1>
-            <form role="form">
+            <form [formGroup]="rForm" (ngSubmit)="onLoggedin()">
                 <div class="form-content">
+
                     <div class="form-group">
-                        <input type="text" ng-model="name" class="form-control input-underline input-lg" id="" placeholder="Email">
+                        <input type="email" class="form-control input-underline input-lg" 
+                            (focus)="notFocused=false" formControlName="email" 
+                            placeholder="Correo Electronico">
+                    </div>
+                    <div class="msgWarning" *ngIf="!rForm.controls.email.valid && rForm.controls.email.dirty">
+                      Por favor ingrese un correo electronico valido...
                     </div>
 
                     <div class="form-group">
-                        <input type="password" class="form-control input-underline input-lg" id="" placeholder="Password">
+                        <input type="password" class="form-control input-underline input-lg"
+                        (focus)="notFocused=false" formControlName="password" placeholder="Contraseña">
+                    </div> 
+                    <div class="msgWarning" *ngIf="!rForm.controls.password.valid && rForm.controls.password.dirty">
+                      Por favor ingrese su contraseña...
+                    </div>
+
+                   
+                    <re-captcha (resolved)="resolved($event)" 
+                       siteKey="6LeLA2AUAAAAANxUsW26ba3SU3CvQitcDQCE43ry">
+                    </re-captcha>
+         
+
+                    <div *ngIf="warningMsg != null && notFocused" 
+                         style="color: #DAA520;padding-top: 5%">
+                      <i class="fas fa-exclamation-triangle"></i> {{ warningMsg }}
                     </div>
                 </div>
-                <a class="btn rounded-btn" [routerLink]="['/dashboard']" (click)="onLoggedin()"> 
-                Ingresar </a>
+                <button class="btn rounded-btn" [disabled]="!rForm.valid"> Ingresar </button>
                 &nbsp;
                 <a class="btn rounded-btn" [routerLink]="['/signup']">Registrarse</a>
             </form>
+            <ngx-spinner size="large"></ngx-spinner>
         </div>
     </div>
 </div>

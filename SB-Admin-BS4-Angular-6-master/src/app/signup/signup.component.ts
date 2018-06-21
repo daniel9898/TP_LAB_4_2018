@@ -3,6 +3,8 @@ import { routerTransition } from '../router.animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
 import { UsuariosService } from '../servicios/usuarios.service';
 import { Router } from "@angular/router";
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ValidatePassword } from './password.validator';
 
 @Component({
     selector: 'app-signup',
@@ -13,64 +15,69 @@ import { Router } from "@angular/router";
 export class SignupComponent{
 
   rForm: FormGroup;
-  name : string;
-  lastName: string;
-  email: string;
-  password: string;
-  Confpassword: string;
-  remember: Boolean;
-  titleAlert:string = 'Ingrese este campo por favor';
-  emailAlert:string = 'Email Incorrecto';
-  validateEmail = "[a-zA-Z0-9._-]+[@]+[a-zA-Z0-9-]+[.]+[a-zA-Z]{2,6}";
-  spinner : boolean = false;
+  warning : boolean = false;
+  warningMsg : string;
+  notFocused = false;
 
 
   constructor(public usrService: UsuariosService,
               private fb: FormBuilder,
-              private router: Router) {
+              private router: Router,
+              private spinner: NgxSpinnerService) {
 
     this.getUser('users');
-    this.rForm = fb.group({
+    this.setFormValidator();
+  }
+
+  resolved(captchaResponse: string) {
+      console.log(`Resolved captcha with response ${captchaResponse}:`);
+  }
+
+  setFormValidator(){
+    this.rForm = this.fb.group({
       'name' : ['test001',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
       'lastName' : ['test001', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
-      'email' : ['1test@test.com',  Validators.pattern(this.validateEmail)],
-      'password' : ['test001', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
-      'Confpassword' : ['test0001',Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
-      'remember' : ['test001',''],
+      'email' : ['1test@test.com',  Validators.compose([Validators.required, Validators.email])],
+      'password' : ['test0001', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
+      'password2' : ['test0001',Validators.compose([Validators.required,ValidatePassword,Validators.minLength(4), Validators.maxLength(15)])]
     });
   }
 
+  get confirmPassword() {
+    return this.rForm.get('password2');
+  }
+
   getUser(endPoint: string) {
-  	let users = this.usrService.getUsers(endPoint);
-  	console.log(users)
-    /*this.usrService.getUsers(endPoint).subscribe(
-       users => console.log(users)
-    )*/
+  	this.usrService.getUsers(endPoint).subscribe(users => console.log(users.json()),
+                                                 error => console.log(error.json()));
   }
 
   signUp(){
-
-    this.spinner = true;
+    
+    this.spinner.show();
     console.log(this.rForm.value);
     let user = this.rForm.value;
+    delete user.password2;
  
-    /*this.usrService.saveUser('signup',user).subscribe(
+    this.usrService.saveUser('signup',user).subscribe(
         usersUpdated => {
             this.rForm.reset();
-            console.log(usersUpdated);//NO DEBERIA RETORNAR EL PASS Y ID 
+            console.log(usersUpdated.json());//NO DEBERIA RETORNAR EL PASS Y ID 
             let strUser = JSON.stringify(usersUpdated);
             localStorage.setItem('user',strUser);
-            this.router.navigate(['cliente'],{ queryParams: { user: usersUpdated.user} });
+            //this.router.navigate(['cliente'],{ queryParams: { user: usersUpdated.user} });
+            this.spinner.hide();
+            this.router.navigate(['']);
         },
         err => {
-            this.spinner = false;
-            console.log(err);
+            this.notFocused = true;
+            this.spinner.hide();
+            this.warningMsg = 'Correo Electronico o contraseña incorrecta...reintente por favor.';
+            console.log('ERROR ',err.json());
         } 
-    )*/
+    )
   }
    
   //PARA LAS TOSTADAS https://github.com/scttcper/ngx-toastr
-  signIn(){
-    console.log('signIn');
-  }
+ 
 }
