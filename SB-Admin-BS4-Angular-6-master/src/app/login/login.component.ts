@@ -33,8 +33,8 @@ export class LoginComponent {
     
   setFormValidator(){
 	    this.rForm = this.fb.group({
-	      'email' : ['1test@test.com',  Validators.compose([Validators.required, Validators.email])],
-	      'password' : ['test0001', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
+	      'email' : ['daniel@admin.com',  Validators.compose([Validators.required, Validators.email])],
+	      'password' : ['123456', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
 	    });
   }
 

@@ -33,13 +33,17 @@ export class SignupComponent{
       console.log(`Resolved captcha with response ${captchaResponse}:`);
   }
 
+  //usuarios de prueba : daniel@admin.com,daniel@chofer.com,daniel@cliente.com
+
   setFormValidator(){
     this.rForm = this.fb.group({
-      'name' : ['test001',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
-      'lastName' : ['test001', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
-      'email' : ['1test@test.com',  Validators.compose([Validators.required, Validators.email])],
-      'password' : ['test0001', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
-      'password2' : ['test0001',Validators.compose([Validators.required,ValidatePassword,Validators.minLength(4), Validators.maxLength(15)])]
+      'name' : ['daniel',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
+      'lastName' : ['pereira', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
+      'email' : ['daniel@cliente.com',  Validators.compose([Validators.required, Validators.email])],
+      'password' : ['123456', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
+      'password2' : ['123456',Validators.compose([Validators.required,ValidatePassword,Validators.minLength(4), Validators.maxLength(15)])],
+      'profile' : ['cliente'],
+      'picture' : ['http://www.cwejournal.org/images/user.jpg'],
     });
   }
 
@@ -63,7 +67,7 @@ export class SignupComponent{
         usersUpdated => {
             this.rForm.reset();
             console.log(usersUpdated.json());//NO DEBERIA RETORNAR EL PASS Y ID 
-            let strUser = JSON.stringify(usersUpdated);
+            let strUser = JSON.stringify(usersUpdated.json());
             localStorage.setItem('user',strUser);
             //this.router.navigate(['cliente'],{ queryParams: { user: usersUpdated.user} });
             this.spinner.hide();
