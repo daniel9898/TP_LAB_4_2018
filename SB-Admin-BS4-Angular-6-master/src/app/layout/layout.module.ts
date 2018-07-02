@@ -15,6 +15,7 @@ import { HeaderComponent } from './components/header/header.component';
         TranslateModule,
         NgbDropdownModule.forRoot()
     ],
-    declarations: [LayoutComponent, SidebarComponent, HeaderComponent]
+    declarations: [LayoutComponent, SidebarComponent, HeaderComponent],
+    exports: [LayoutComponent, SidebarComponent, HeaderComponent], //exporto los comp que quiero usar en otro modulo
 })
 export class LayoutModule {}

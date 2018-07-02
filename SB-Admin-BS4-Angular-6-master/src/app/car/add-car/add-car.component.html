@@ -1,0 +1,73 @@
+
+<!--<div [@routerTransition]>-->
+    <app-page-header [heading]="'Alta de Vehiculos'" [icon]="'fa-edit'"></app-page-header>
+    <form (ngSubmit)="saveCar()">
+        <div class="row">
+            
+                <div class="col-lg-6">
+
+                        <fieldset class="form-group">
+                            <label>Marca</label>
+                            <input class="form-control">
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label>Patente</label>
+                            <input class="form-control">
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label>Maximo de personas por viaje </label>
+                            <input type="number" class="form-control">
+                        </fieldset>
+                
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value=""> Aire Acondicionado
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value=""> Baul Grande
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value=""> Música via Bluetooth
+                                </label>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" value=""> Airbags
+                                </label>
+                            </div>
+                        </div>
+     
+                </div>
+
+                <div class="col-lg-6">
+            
+                        <fieldset class="form-group">
+                            <label>Año</label>
+                            <input type="number" class="form-control">
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label>Modelo</label>
+                            <input class="form-control">
+                        </fieldset>
+
+                        <fieldset class="form-group">
+                            <label for="exampleInputFile">Imagenes</label>
+                            <input type="file" class="form-control-file" id="exampleInputFile">
+                        </fieldset>
+
+                        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                    
+                </div>
+
+            
+        </div>
+    </form>
+
