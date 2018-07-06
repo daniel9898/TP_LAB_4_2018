@@ -12,7 +12,9 @@ import { AuthGuard } from './shared';
 
 import { HttpModule } from '@angular/http';
 import { CustomHttpService } from './servicios/custom-http.service';
-import { UsuariosService } from './servicios/usuarios.service';
+import { UsuariosService } from './servicios/user/usuarios.service';
+import { CarService } from './servicios/car/car.service';
+
 
 // AoT requires an exported function for factories
 export const createTranslateLoader = (http: HttpClient) => {
@@ -42,7 +44,7 @@ export const createTranslateLoader = (http: HttpClient) => {
         AppRoutingModule
     ],
     declarations: [AppComponent],
-    providers: [AuthGuard,UsuariosService,CustomHttpService],
+    providers: [AuthGuard,UsuariosService,CustomHttpService,CarService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

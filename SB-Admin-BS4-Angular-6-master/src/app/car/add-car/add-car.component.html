@@ -1,73 +1,93 @@
 
 <!--<div [@routerTransition]>-->
     <app-page-header [heading]="'Alta de Vehiculos'" [icon]="'fa-edit'"></app-page-header>
-    <form (ngSubmit)="saveCar()">
+    <ngb-alert *ngIf="alert.view" [type]="alert.type"  [dismissible]="false">
+      <strong>{{ alert.title }}</strong>{{ alert.message }}
+    </ngb-alert>
+
+    <form [formGroup]="rForm" (ngSubmit)="saveCar()" class="needs-validation">
         <div class="row">
             
-                <div class="col-lg-6">
+            <div class="col-lg-6">
 
-                        <fieldset class="form-group">
-                            <label>Marca</label>
-                            <input class="form-control">
-                        </fieldset>
+                <fieldset class="form-group">
+                    <label>Marca</label>
+                    <input class="form-control" formControlName="brand">
+                </fieldset>
+                <div class="msgWarning" *ngIf="!rForm.controls.brand.valid && rForm.controls.brand.dirty">
+                    Por favor ingrese este campo...
+                </div>
 
-                        <fieldset class="form-group">
-                            <label>Patente</label>
-                            <input class="form-control">
-                        </fieldset>
+                <fieldset class="form-group">
+                    <label>Patente</label>
+                    <input class="form-control" formControlName="patent" >
+                </fieldset>
+                <div class="msgWarning" *ngIf="!rForm.controls.patent.valid && rForm.controls.patent.dirty">
+                   Por favor ingrese este campo...
+                </div>
 
-                        <fieldset class="form-group">
-                            <label>Maximo de personas por viaje </label>
-                            <input type="number" class="form-control">
-                        </fieldset>
+                <fieldset class="form-group">
+                    <label>Maximo de personas por viaje </label>
+                    <input type="number" class="form-control"  formControlName="number_people" >
+                </fieldset>
+        
+                <div class="form-group">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" formControlName="air_conditioned"> Aire Acondicionado
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" formControlName="big_trunk"> Baul Grande
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" formControlName="usb_music"> Música via Bluetooth
+                        </label>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" formControlName="airbags"> Airbags
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-6">
+        
+                <fieldset class="form-group">
+                    <label>Año</label>
+                    <input type="number" class="form-control" formControlName="year" >
+                </fieldset>
+                <div class="msgWarning" *ngIf="!rForm.controls.year.valid && rForm.controls.year.dirty">
+                    Por favor ingrese este campo...
+                </div>
+
+
+                <fieldset class="form-group">
+                    <label>Modelo</label>
+                    <input class="form-control" formControlName="model">
+                </fieldset>
+                <div class="msgWarning" *ngIf="!rForm.controls.model.valid && rForm.controls.model.dirty">
+                    Por favor ingrese este campo...
+                </div>
+
+                <fieldset class="form-group">
+                    <label>Imagenes</label>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" lang="es">
+                      <label class="custom-file-label" for="customFileLang">Seleccionar</label>
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn btn-primary btn-block" [disabled]="!rForm.valid">Guardar</button>
                 
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value=""> Aire Acondicionado
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value=""> Baul Grande
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value=""> Música via Bluetooth
-                                </label>
-                            </div>
-                            <div class="checkbox">
-                                <label>
-                                    <input type="checkbox" value=""> Airbags
-                                </label>
-                            </div>
-                        </div>
-     
-                </div>
-
-                <div class="col-lg-6">
-            
-                        <fieldset class="form-group">
-                            <label>Año</label>
-                            <input type="number" class="form-control">
-                        </fieldset>
-
-                        <fieldset class="form-group">
-                            <label>Modelo</label>
-                            <input class="form-control">
-                        </fieldset>
-
-                        <fieldset class="form-group">
-                            <label for="exampleInputFile">Imagenes</label>
-                            <input type="file" class="form-control-file" id="exampleInputFile">
-                        </fieldset>
-
-                        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
-                    
-                </div>
+            </div>
 
             
         </div>
     </form>
+    <ngx-spinner size="large"></ngx-spinner>
 

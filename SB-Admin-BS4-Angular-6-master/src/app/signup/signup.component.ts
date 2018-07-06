@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../router.animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
-import { UsuariosService } from '../servicios/usuarios.service';
+import { UsuariosService } from '../servicios/user/usuarios.service';
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ValidatePassword } from './password.validator';
@@ -15,7 +15,6 @@ import { ValidatePassword } from './password.validator';
 export class SignupComponent{
 
   rForm: FormGroup;
-  warning : boolean = false;
   warningMsg : string;
   notFocused = false;
 

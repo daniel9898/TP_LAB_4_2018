@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { CarRoutingModule } from './car-routing.module';
@@ -9,14 +9,18 @@ import { ListComponent } from './list/list.component';
 import { AddCarComponent } from './add-car/add-car.component';
 import { LayoutModule } from '../layout/layout.module';
 import { PageHeaderModule } from '../shared/modules/page-header/page-header.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
     imports: [
         CommonModule,
         CarRoutingModule,
         FormsModule,
+        ReactiveFormsModule,
+        NgxSpinnerModule,
         LayoutModule,
         PageHeaderModule,
+        NgbAlertModule.forRoot(),
         NgbModule.forRoot()
     ],
     declarations: [

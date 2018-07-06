@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CustomHttpService } from './custom-http.service';
+import { CustomHttpService } from '../custom-http.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
 
-  constructor(public miHttp: CustomHttpService) { }
+  constructor(private miHttp: CustomHttpService) { }
 
   getUsers(endPoint: string){
     return this.miHttp.runGet(endPoint);

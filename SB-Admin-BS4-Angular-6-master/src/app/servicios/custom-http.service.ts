@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+//import { Observable } from 'rxjs';
+//import { map, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'

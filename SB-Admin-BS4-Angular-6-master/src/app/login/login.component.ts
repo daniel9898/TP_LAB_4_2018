@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { routerTransition } from '../router.animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
-import { UsuariosService } from '../servicios/usuarios.service';
+import { UsuariosService } from '../servicios/user/usuarios.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
