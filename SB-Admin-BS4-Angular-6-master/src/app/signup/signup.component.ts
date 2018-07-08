@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { routerTransition } from '../router.animations';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
 import { UsuariosService } from '../servicios/user/usuarios.service';
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ValidatePassword } from './password.validator';
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: 'app-signup',
@@ -12,19 +13,18 @@ import { ValidatePassword } from './password.validator';
     styleUrls: ['./signup.component.scss'],
     animations: [routerTransition()]
 })
-export class SignupComponent{
+export class SignupComponent implements OnDestroy{
 
   rForm: FormGroup;
   warningMsg : string;
   notFocused = false;
-
-
+  userSubs : Subscription; 
+   
   constructor(public usrService: UsuariosService,
               private fb: FormBuilder,
               private router: Router,
               private spinner: NgxSpinnerService) {
 
-    this.getUser('users');
     this.setFormValidator();
   }
 
@@ -43,6 +43,7 @@ export class SignupComponent{
       'password2' : ['123456',Validators.compose([Validators.required,ValidatePassword,Validators.minLength(4), Validators.maxLength(15)])],
       'profile' : ['cliente'],
       'picture' : ['http://www.cwejournal.org/images/user.jpg'],
+      'signUp' : []
     });
   }
 
@@ -50,19 +51,15 @@ export class SignupComponent{
     return this.rForm.get('password2');
   }
 
-  getUser(endPoint: string) {
-  	this.usrService.getUsers(endPoint).subscribe(users => console.log(users.json()),
-                                                 error => console.log(error.json()));
-  }
-
   signUp(){
     
     this.spinner.show();
     console.log(this.rForm.value);
     let user = this.rForm.value;
+    user.signUp = new Date().toLocaleString();
     delete user.password2;
  
-    this.usrService.saveUser('signup',user).subscribe(
+    this.userSubs = this.usrService.saveUser('signup',user).subscribe(
         usersUpdated => {
             this.rForm.reset();
             console.log(usersUpdated.json());//NO DEBERIA RETORNAR EL PASS Y ID 
@@ -79,6 +76,14 @@ export class SignupComponent{
             console.log('ERROR ',err.json());
         } 
     )
+
+  }
+
+  ngOnDestroy() {
+    if(this.userSubs){
+       this.userSubs.unsubscribe();
+    }
+    
   }
    
   //PARA LAS TOSTADAS https://github.com/scttcper/ngx-toastr

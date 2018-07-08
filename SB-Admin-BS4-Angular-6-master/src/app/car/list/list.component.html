@@ -1,3 +1,46 @@
-<p>
-  list works!
-</p>
+<div *ngIf="!see_table">
+    <ngb-alert *ngIf="alert.view" [type]="alert.type" [dismissible]="false">
+      <strong>{{ alert.title }}</strong>{{ alert.message }}
+    </ngb-alert>
+</div>
+
+<div *ngIf="see_table" class="table-responsive">
+	<table class="table table-dark table-hover">
+	<caption>Lista de Vehiculos</caption>
+	  <thead>
+	    <tr>
+	      <th scope="col">#</th>
+	      <th scope="col">Marca</th>
+	      <th scope="col">Modelo</th>
+	      <th scope="col">Patente</th>
+	      <th scope="col">Año</th>
+	      <th scope="col">Imagen</th>
+	      <th scope="col">Alta</th>
+	      <th scope="col">Estado</th>
+	      <th scope="col">Acción</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <tr *ngFor="let car of list; let i = index">
+		    <th scope="row">{{ i + 1 }}</th>
+		    <td>{{ car.brand }}</td>
+		    <td>{{ car.model }}</td>
+		    <td>{{ car.patent }}</td>
+		    <td>{{ car.year }}</td>
+		    <td><img src="http://www.digitaltrends.com/wp-content/uploads/2013/04/Koenigsegg-Agera-R.jpg"  height="40" width="70"></td>
+		    <td>{{ car.date_created }}</td>
+		    <td>{{ car.state }}</td>
+		    <td>
+				<div class="btn-group" role="group" aria-label="Basic example">
+                  <modal-delete-car [car]="car" (refreshList)="refresh($event)">
+                  </modal-delete-car>
+				  <button type="button" class="btn btn-warning" (click)="editCar(car)">
+				  	<i class="fas fa-edit"></i>
+				  </button>
+				</div>
+			</td>
+	    </tr>
+	  </tbody>
+	</table>
+</div>
+

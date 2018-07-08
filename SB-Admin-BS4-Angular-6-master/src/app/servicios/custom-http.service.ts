@@ -18,8 +18,14 @@ export class CustomHttpService {
 
   runPost(endPoint: string, data: any){
     return this.http.post(`${this.url}${endPoint}`,data);
-  	                /*.pipe( map((response: any) => response.json())),
-  	                       catchError(err => Observable.throw(err.json().error || 'Server error'));*/
+  }
+
+  runDelete(endPoint: string, id: any, car: any){
+     return this.http.put(`${this.url}${endPoint}/${id}`,car);
+  }
+
+  runUpdate(endPoint: string, id: any, car: any){
+     return this.http.put(`${this.url}${endPoint}/${id}`,car);
   }
 
 }

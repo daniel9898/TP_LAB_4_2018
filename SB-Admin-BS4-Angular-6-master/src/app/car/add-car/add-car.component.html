@@ -1,6 +1,7 @@
 
 <!--<div [@routerTransition]>-->
     <app-page-header [heading]="'Alta de Vehiculos'" [icon]="'fa-edit'"></app-page-header>
+    
     <ngb-alert *ngIf="alert.view" [type]="alert.type"  [dismissible]="false">
       <strong>{{ alert.title }}</strong>{{ alert.message }}
     </ngb-alert>
@@ -82,7 +83,7 @@
                       <label class="custom-file-label" for="customFileLang">Seleccionar</label>
                     </div>
                 </fieldset>
-                <button type="submit" class="btn btn-primary btn-block" [disabled]="!rForm.valid">Guardar</button>
+                <button type="submit" class="btn btn-primary btn-block" [disabled]="!rForm.valid || submitted">Guardar</button>
                 
             </div>
 

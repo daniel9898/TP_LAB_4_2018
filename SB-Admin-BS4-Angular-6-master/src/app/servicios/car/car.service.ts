@@ -8,15 +8,19 @@ export class CarService {
 
   constructor(private miHttp: CustomHttpService) { }
 
-  getCars(endPoint: string){
+  getAll(endPoint: string){
     return this.miHttp.runGet(endPoint);
   }
 
-  saveCar(endPoint: string, data: any){
+  save(endPoint: string, data: any){
     return this.miHttp.runPost(endPoint, data);
   }
 
-  getCar(endPoint: string, data: any){
-    return this.miHttp.runPost(endPoint, data);
+  update(endPoint: string, car: any){
+    return this.miHttp.runUpdate(endPoint,car._id, car);
+  }
+
+  delete(endPoint: string, car: any){
+    return this.miHttp.runDelete(endPoint,car._id, car);
   }
 }

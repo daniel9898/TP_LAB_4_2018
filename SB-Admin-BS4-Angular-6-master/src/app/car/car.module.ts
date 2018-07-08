@@ -9,6 +9,7 @@ import { ListComponent } from './list/list.component';
 import { AddCarComponent } from './add-car/add-car.component';
 import { LayoutModule } from '../layout/layout.module';
 import { PageHeaderModule } from '../shared/modules/page-header/page-header.module';
+import { BsComponentModule } from '../layout/bs-component/bs-component.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
@@ -20,6 +21,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
         NgxSpinnerModule,
         LayoutModule,
         PageHeaderModule,
+        BsComponentModule,
         NgbAlertModule.forRoot(),
         NgbModule.forRoot()
     ],
