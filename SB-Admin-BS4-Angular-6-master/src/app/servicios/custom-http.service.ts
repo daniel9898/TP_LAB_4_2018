@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-//import { Observable } from 'rxjs';
-//import { map, catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -9,23 +7,30 @@ import { Http, Response } from '@angular/http';
 export class CustomHttpService {
 
   url: string = 'https://tplab4.herokuapp.com/';
+  token: string;
 
-  constructor(public http: Http) { }
+  constructor(public http: HttpClient) {
+    this.token =  JSON.parse(localStorage.getItem('user')).token;
+  }
 
   runGet(endPoint: string){
   	return this.http.get(`${this.url}${endPoint}`);        
   }
 
   runPost(endPoint: string, data: any){
-    return this.http.post(`${this.url}${endPoint}`,data);
+    return this.http.post(`${this.url}${endPoint}`, data, this.getHeaders());
   }
 
   runDelete(endPoint: string, id: any, car: any){
-     return this.http.put(`${this.url}${endPoint}/${id}`,car);
+     return this.http.put(`${this.url}${endPoint}/${id}`, car, this.getHeaders());
   }
 
   runUpdate(endPoint: string, id: any, car: any){
-     return this.http.put(`${this.url}${endPoint}/${id}`,car);
+     return this.http.put(`${this.url}${endPoint}/${id}`, car, this.getHeaders());
+  }
+
+  private getHeaders(){
+    return { headers: new HttpHeaders({'Authorization': 'Bearer '+this.token,'Content-Type': 'application/json'}) };
   }
 
 }

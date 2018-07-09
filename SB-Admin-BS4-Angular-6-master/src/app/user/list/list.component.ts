@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { CarService } from '../../servicios/car/car.service';
+import { UsuariosService } from '../../servicios/user/usuarios.service';
 import { Subscription } from "rxjs/Subscription";
 import { Router } from '@angular/router';
 
@@ -20,15 +20,14 @@ export class ListComponent implements OnDestroy {
       message: ''
   };
   
-  constructor(private _car : CarService, public router: Router) {
-    this.getCars();
+  constructor(private _user : UsuariosService, public router: Router) {
+    this.getUsers();
   }
 
-  getCars(){
-    this.listSub = this._car.getAll('cars').subscribe(
-      resp => this.list = resp['cars'],
+  getUsers(){
+    this.listSub = this._user.getAll('users').subscribe(
+     (resp:any) => this.list = resp['users'],
       error => {
-   
         this.showAlert(error['message'],'warning');
         this.see_table = false;
         
@@ -38,13 +37,13 @@ export class ListComponent implements OnDestroy {
 
   refresh(refresh){
     if(refresh){
-       this.getCars();
+       this.getUsers();
     }
   }
 
-  editCar(car:any){
-    localStorage.setItem('car_to_update',JSON.stringify(car));
-    this.router.navigate(['car/add',{ alta: false }]);
+  editUser(user:any){
+    localStorage.setItem('user_to_update',JSON.stringify(user));
+    this.router.navigate(['user/add',{ alta: false }]);
   }
 
   showAlert(message:any,type:string){

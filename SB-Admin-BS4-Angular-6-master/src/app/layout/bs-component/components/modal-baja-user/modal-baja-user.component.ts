@@ -1,19 +1,19 @@
 import { Component, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { CarService } from '../../../../servicios/car/car.service';
+import { UsuariosService } from '../../../../servicios/user/usuarios.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from "rxjs/Subscription";
 
 @Component({
-    selector: 'modal-delete-car',
-    templateUrl: './modal.component.html',
-    styleUrls: ['./modal.component.scss']
+    selector: 'modal-delete-user',
+    templateUrl: './modal-baja-user.component.html',
+    styleUrls: ['./modal-baja-user.component.scss']
 })
-export class ModalComponent implements OnDestroy {
+export class ModalBajaUserComponent implements OnDestroy {
 
-    @Input() car : any;
+    @Input() user : any;
     view_msg : boolean;
-    carSub : Subscription;
+    userSubs : Subscription;
     modalReference : any;
     alert = {
         view : false,
@@ -24,7 +24,7 @@ export class ModalComponent implements OnDestroy {
     @Output() refreshList : EventEmitter<any> = new EventEmitter<any>();
 
     constructor(private modalService: NgbModal,
-                private _car : CarService,
+                private _user : UsuariosService,
                 private spinner: NgxSpinnerService) { }
     
 
@@ -38,13 +38,13 @@ export class ModalComponent implements OnDestroy {
         });
     }
 
-    deleteCar(){
+    deleteUser(){
       
         this.spinner.show();
-        console.log("auto a borrar en modal",this.car);
+        console.log("user a borrar en modal",this.user);
 
-        this.car.isActive = false;
-        this.carSub = this._car.delete('cars',this.car).subscribe(
+        this.user.isActive = false;
+        this.userSubs = this._user.delete('users',this.user).subscribe(
           resp => {
               console.log(resp);
               this.modalReference.close();
@@ -70,8 +70,8 @@ export class ModalComponent implements OnDestroy {
 
     ngOnDestroy() {
         console.log('se ejecuto ngOnDestroy');
-        if(this.carSub){
-           this.carSub.unsubscribe();
+        if(this.userSubs){
+           this.userSubs.unsubscribe();
         } 
     }
 

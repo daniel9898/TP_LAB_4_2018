@@ -9,6 +9,7 @@ import {
     AlertComponent,
     ButtonsComponent,
     ModalComponent,
+    ModalBajaUserComponent,
     CollapseComponent,
     DatePickerComponent,
     DropdownComponent,
@@ -36,6 +37,7 @@ import { PageHeaderModule } from '../../shared';
         ButtonsComponent,
         AlertComponent,
         ModalComponent,
+        ModalBajaUserComponent,
         CollapseComponent,
         DatePickerComponent,
         DropdownComponent,
@@ -47,6 +49,6 @@ import { PageHeaderModule } from '../../shared';
         TooltipComponent,
         TimepickerComponent
     ],
-     exports: [ModalComponent]
+     exports: [ModalComponent,ModalBajaUserComponent]
 })
 export class BsComponentModule {}

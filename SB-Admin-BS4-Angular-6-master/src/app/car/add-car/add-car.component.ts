@@ -23,7 +23,6 @@ export class AddCarComponent implements OnDestroy {
   car_to_update : any;
   alta : boolean = true;
   submitted : boolean = false;
-  
 
   constructor(private fb: FormBuilder,
               private spinner: NgxSpinnerService,
@@ -44,31 +43,30 @@ export class AddCarComponent implements OnDestroy {
 
   setValidator(){
     this.rForm = this.fb.group({
-      'brand' : [!this.alta ? this.car_to_update.brand : '',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
-      'patent' : [!this.alta ? this.car_to_update.patent : '', Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(7)])],
-      'number_people' : [!this.alta ? this.car_to_update.number_people : '',  Validators.compose([Validators.min(2),Validators.max(10)])],
+      'brand' : [!this.alta ? this.car_to_update.brand : null,  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(15)])],
+      'patent' : [!this.alta ? this.car_to_update.patent : null, Validators.compose([Validators.required, Validators.minLength(6), Validators.maxLength(7)])],
+      'number_people' : [!this.alta ? this.car_to_update.number_people : 4,  Validators.compose([Validators.required,Validators.min(2),Validators.max(10)])],
       'air_conditioned' : [!this.alta ? this.car_to_update.air_conditioned : false],
       'big_trunk' : [!this.alta ? this.car_to_update.big_trunk : false],
       'usb_music' : [!this.alta ? this.car_to_update.usb_music : false],
       'airbags' : [!this.alta ? this.car_to_update.airbags : false],
-      'year' : [!this.alta ? this.car_to_update.year : '', Validators.compose([Validators.required, Validators.min(2000), Validators.max(2500)])],
-      'model' : [!this.alta ? this.car_to_update.model : '',Validators.compose([Validators.required,,Validators.minLength(4), Validators.maxLength(15)])],
-      'pictures' : [!this.alta ? this.car_to_update.pictures : ''],
+      'year' : [!this.alta ? this.car_to_update.year : null, Validators.compose([Validators.required, Validators.min(2000), Validators.max(2500)])],
+      'model' : [!this.alta ? this.car_to_update.model : null,Validators.compose([Validators.required,,Validators.minLength(2), Validators.maxLength(15)])],
+      'pictures' : [!this.alta ? this.car_to_update.pictures : "http://www.digitaltrends.com/wp-content/uploads/2013/04/Koenigsegg-Agera-R.jpg"],
       'date_created' : [!this.alta ? this.car_to_update.date_created : ''],
       'isActive' : [true],
     });
   }
 
+  get toogleHeader(){
+    return this.alta ? 'Alta de vehiculo' : 'Modificación de vehiculo';
+  }
+
+ 
   saveCar(){
     this.submitted = true;
   	this.spinner.show();
-    if(this.alta){
-      this.createCar();
-    }else{
-      this.updateCar();
-    }
-   
-
+    this.alta ? this.createCar() : this.updateCar();
   }
 
   showAlert(message:any,type:string){
@@ -94,8 +92,9 @@ export class AddCarComponent implements OnDestroy {
       },
       error => { 
           console.log(error.json());
+          this.submitted = false;
           this.spinner.hide();
-          this.showAlert(error.json().message,'warning');
+          this.showAlert(error['message'],'warning');
       }
     )
     this.carSub.add(carSub1);
@@ -109,15 +108,17 @@ export class AddCarComponent implements OnDestroy {
     let car = this.rForm.value;
 
     const carSub2 = this._car.save('cars', car).subscribe(
-      car => {
+      carSaved => {
+          console.log(carSaved);
           this.spinner.hide();
-          this.showAlert(car.json().message,'success');
+          this.showAlert(carSaved['message'],'success');
           setTimeout(this.hideAlert.bind(this),6000);
           this.rForm.reset();
       },
       error => { 
           this.spinner.hide();
-          this.showAlert(error.json().message,'warning');
+          this.submitted = false;
+          this.showAlert(error.error.message,'warning');
       }
     )
     this.carSub.add(carSub2);

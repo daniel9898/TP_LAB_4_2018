@@ -20,7 +20,7 @@ export class SignupComponent implements OnDestroy{
   notFocused = false;
   userSubs : Subscription; 
    
-  constructor(public usrService: UsuariosService,
+  constructor(public _user: UsuariosService,
               private fb: FormBuilder,
               private router: Router,
               private spinner: NgxSpinnerService) {
@@ -59,13 +59,12 @@ export class SignupComponent implements OnDestroy{
     user.signUp = new Date().toLocaleString();
     delete user.password2;
  
-    this.userSubs = this.usrService.saveUser('signup',user).subscribe(
-        usersUpdated => {
+    this.userSubs = this._user.save('signup',user).subscribe(
+        (usersUpdated:any) => {
             this.rForm.reset();
-            console.log(usersUpdated.json());//NO DEBERIA RETORNAR EL PASS Y ID 
-            let strUser = JSON.stringify(usersUpdated.json());
+            console.log(usersUpdated);//NO DEBERIA RETORNAR EL PASS Y ID 
+            let strUser = JSON.stringify(usersUpdated);
             localStorage.setItem('user',strUser);
-            //this.router.navigate(['cliente'],{ queryParams: { user: usersUpdated.user} });
             this.spinner.hide();
             this.router.navigate(['']);
         },
@@ -73,7 +72,7 @@ export class SignupComponent implements OnDestroy{
             this.notFocused = true;
             this.spinner.hide();
             this.warningMsg = 'Correo Electronico o contraseña incorrecta...reintente por favor.';
-            console.log('ERROR ',err.json());
+            console.log('ERROR ',err);
         } 
     )
 

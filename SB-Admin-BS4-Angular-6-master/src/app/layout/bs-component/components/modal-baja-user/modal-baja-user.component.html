@@ -1,0 +1,28 @@
+
+<!--<button class="btn btn-primary" (click)="open(content)">Large modal</button>-->
+<button type="button" class="btn btn-danger" (click)="open(content)">
+<i class="fas fa-trash-alt"></i>
+</button>
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro de borrar el usuario ?</h5>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p><strong>Apellido : </strong>{{ user.lastName }}</p>
+        <p><strong>Nombre : </strong>{{ user.name }}</p>
+        <p><strong>Perfil : </strong>{{ user.profile }}</p>
+    </div>
+    <div *ngIf="!view_msg" class="modal-footer">
+        <button type="button" class="btn btn-warning" (click)="c('Close click')">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="deleteUser()">Confirmar</button>
+    </div>
+    <div *ngIf="view_msg">
+        <ngb-alert *ngIf="alert.view" [type]="alert.type" [dismissible]="false">
+          <strong>{{ alert.title }}</strong>{{ alert.message }}
+        </ngb-alert>
+    </div>
+</ng-template>
+   

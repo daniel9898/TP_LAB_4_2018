@@ -7,6 +7,7 @@ const routes: Routes = [
     { path: '', loadChildren: './layout/layout.module#LayoutModule', canActivate: [AuthGuard] },
     { path: 'login', loadChildren: './login/login.module#LoginModule' },
     { path: 'car', loadChildren: './car/car.module#CarModule' },
+    { path: 'user', loadChildren: './user/user.module#UserModule' },
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'error', loadChildren: './server-error/server-error.module#ServerErrorModule' },
     { path: 'access-denied', loadChildren: './access-denied/access-denied.module#AccessDeniedModule' },
@@ -20,5 +21,3 @@ const routes: Routes = [
 })
 export class AppRoutingModule {}
 
-//{path: 'login' , component: LoginComponent},
-	//{path: 'cliente' , component: PrincipalComponent},

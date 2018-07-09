@@ -58,12 +58,12 @@
                 <li class="nested" [class.expand]="showMenu === 'p2'">
                     <ul class="submenu">
                         <li>
-                            <a href="javascript:void(0)">
+                            <a [routerLink]="['/user/add']">
                                 <span><i class="fa fa-fw fa-plus-circle"></i> Alta </span>
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0)">
+                            <a [routerLink]="['/user/list']">
                                 <span><i class="fa fa-fw fa-list-ul"></i> Lista  </span>
                             </a>
                         </li>

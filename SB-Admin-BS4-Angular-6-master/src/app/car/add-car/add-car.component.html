@@ -1,94 +1,114 @@
 
-<!--<div [@routerTransition]>-->
-    <app-page-header [heading]="'Alta de Vehiculos'" [icon]="'fa-edit'"></app-page-header>
-    
-    <ngb-alert *ngIf="alert.view" [type]="alert.type"  [dismissible]="false">
-      <strong>{{ alert.title }}</strong>{{ alert.message }}
-    </ngb-alert>
+<app-page-header [heading]="toogleHeader" [icon]="'fa-edit'"></app-page-header>
 
-    <form [formGroup]="rForm" (ngSubmit)="saveCar()" class="needs-validation">
-        <div class="row">
-            
-            <div class="col-lg-6">
+<ngb-alert *ngIf="alert.view" [type]="alert.type"  [dismissible]="false">
+  <strong>{{ alert.title }}</strong>{{ alert.message }}
+</ngb-alert>
 
-                <fieldset class="form-group">
-                    <label>Marca</label>
-                    <input class="form-control" formControlName="brand">
-                </fieldset>
-                <div class="msgWarning" *ngIf="!rForm.controls.brand.valid && rForm.controls.brand.dirty">
-                    Por favor ingrese este campo...
-                </div>
-
-                <fieldset class="form-group">
-                    <label>Patente</label>
-                    <input class="form-control" formControlName="patent" >
-                </fieldset>
-                <div class="msgWarning" *ngIf="!rForm.controls.patent.valid && rForm.controls.patent.dirty">
-                   Por favor ingrese este campo...
-                </div>
-
-                <fieldset class="form-group">
-                    <label>Maximo de personas por viaje </label>
-                    <input type="number" class="form-control"  formControlName="number_people" >
-                </fieldset>
+<form [formGroup]="rForm" (ngSubmit)="save()" class="needs-validation">
+    <div class="row">
         
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" formControlName="air_conditioned"> Aire Acondicionado
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" formControlName="big_trunk"> Baul Grande
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" formControlName="usb_music"> Música via Bluetooth
-                        </label>
-                    </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" formControlName="airbags"> Airbags
-                        </label>
-                    </div>
-                </div>
+        <div class="col-lg-4">
 
+            <fieldset class="form-group">
+                <label>Marca</label>
+                <input class="form-control" formControlName="brand">
+            </fieldset>
+            <div class="msgWarning" *ngIf="!rForm.controls.brand.valid && rForm.controls.brand.dirty">
+                Por favor ingrese este campo...
             </div>
 
-            <div class="col-lg-6">
-        
-                <fieldset class="form-group">
-                    <label>Año</label>
-                    <input type="number" class="form-control" formControlName="year" >
-                </fieldset>
-                <div class="msgWarning" *ngIf="!rForm.controls.year.valid && rForm.controls.year.dirty">
-                    Por favor ingrese este campo...
+            <fieldset class="form-group">
+                <label>Patente</label>
+                <input class="form-control" formControlName="patent" >
+            </fieldset>
+            <div class="msgWarning" *ngIf="!rForm.controls.patent.valid && rForm.controls.patent.dirty">
+               Por favor ingrese este campo...
+            </div>
+
+            <fieldset class="form-group">
+                <label>Maximo de personas por viaje </label>
+                <input type="number" class="form-control"  formControlName="number_people" >
+            </fieldset>
+    
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" formControlName="air_conditioned"> Aire Acondicionado
+                    </label>
                 </div>
-
-
-                <fieldset class="form-group">
-                    <label>Modelo</label>
-                    <input class="form-control" formControlName="model">
-                </fieldset>
-                <div class="msgWarning" *ngIf="!rForm.controls.model.valid && rForm.controls.model.dirty">
-                    Por favor ingrese este campo...
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" formControlName="big_trunk"> Baul Grande
+                    </label>
                 </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" formControlName="usb_music"> Música via Bluetooth
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" formControlName="airbags"> Airbags
+                    </label>
+                </div>
+            </div>
 
-                <fieldset class="form-group">
-                    <label>Imagenes</label>
-                    <div class="custom-file">
-                      <input type="file" class="custom-file-input" lang="es">
-                      <label class="custom-file-label" for="customFileLang">Seleccionar</label>
-                    </div>
-                </fieldset>
-                <button type="submit" class="btn btn-primary btn-block" [disabled]="!rForm.valid || submitted">Guardar</button>
+        </div>
+
+        <div class="col-lg-4">
+    
+            <fieldset class="form-group">
+                <label>Año</label>
+                <input type="number" class="form-control" formControlName="year" >
+            </fieldset>
+            <div class="msgWarning" *ngIf="!rForm.controls.year.valid && rForm.controls.year.dirty">
+                Por favor ingrese este campo...
+            </div>
+
+
+            <fieldset class="form-group">
+                <label>Modelo</label>
+                <input class="form-control" formControlName="model">
+            </fieldset>
+            <div class="msgWarning" *ngIf="!rForm.controls.model.valid && rForm.controls.model.dirty">
+                Por favor ingrese este campo...
+            </div>
+
+            <fieldset class="form-group">
+                <label>Subir imagenes</label>
+                <div class="custom-file">
+                  <label class="custom-file-label" for="customFileLang">
+                      <i class="fas fa-camera-retro"></i>
+                  </label>-->
+                </div>
+                <small>Maximo 4</small>
+            </fieldset>
+        </div>
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-lg-6">
+                    <fieldset class="form-group">
+                       <img class="img-thumbnail" src="http://placehold.it/200x200" alt="">
+                    </fieldset>
+                </div>
+                <div class="col-lg-6">
+                    <fieldset class="form-group">
+                      <img class="img-thumbnail" src="http://placehold.it/200x200" alt="">
+                    </fieldset>
+                    <fieldset class="form-group">
+                      <img class="img-thumbnail" src="http://placehold.it/200x200" alt="">
+                    </fieldset>
+                    
+                </div>
                 
             </div>
-
+            <button type="submit" class="btn btn-success btn-block" [disabled]="!rForm.valid || submitted">
+              Guardar &nbsp;<i class="fas fa-save"></i> 
+            </button>
             
         </div>
-    </form>
-    <ngx-spinner size="large"></ngx-spinner>
+    </div>
+</form>
+<ngx-spinner size="large"></ngx-spinner>
 

@@ -8,11 +8,11 @@ export class UsuariosService {
 
   constructor(private miHttp: CustomHttpService) { }
 
-  getUsers(endPoint: string){
+  getAll(endPoint: string){
     return this.miHttp.runGet(endPoint);
   }
 
-  saveUser(endPoint: string, data: any){
+  save(endPoint: string, data: any){
     return this.miHttp.runPost(endPoint, data);
   }
 
@@ -20,11 +20,13 @@ export class UsuariosService {
     return this.miHttp.runPost(endPoint, data);
   }
 
-  /*private extractData ( res: Response ){
-    return res.json() || {};
+  update(endPoint: string, user: any){
+    return this.miHttp.runUpdate(endPoint,user._id, user);
   }
 
-  private handleError ( error: Response | any ){
-    return error;
-  }*/
+  delete(endPoint: string, user: any){
+    return this.miHttp.runDelete(endPoint,user._id, user);
+  }
+
+
 }

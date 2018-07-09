@@ -1,0 +1,94 @@
+<app-page-header [heading]="toogleHeader" [icon]="'fa-edit'">
+</app-page-header>
+
+<ngb-alert *ngIf="alert.view" [type]="alert.type"  [dismissible]="false">
+  <strong>{{ alert.title }}</strong>{{ alert.message }}
+</ngb-alert>
+
+<form [formGroup]="rForm" (ngSubmit)="save()">
+    <div class="row">
+        
+            <div class="col-lg-6">
+
+                <div class="form-group">
+                	<label>Nombre</label>
+                    <input type="text" class="form-control input-underline input-lg" 
+                    formControlName="name">
+                </div>
+                <div class="msgWarning" *ngIf="!rForm.controls.name.valid && rForm.controls.name.dirty">
+                  Por favor ingrese este campo...
+                </div>
+
+                <div class="form-group">
+                	<label>Apellido</label>
+                    <input type="text" class="form-control input-underline input-lg" 
+                    formControlName="lastName">
+                </div>
+                <div class="msgWarning" *ngIf="!rForm.controls.lastName.valid && rForm.controls.lastName.dirty">
+                  Por favor ingrese este campo...
+                </div>
+
+                <div class="form-group">
+                	<label>Correo Electronico</label>
+                    <input type="email" class="form-control input-underline input-lg" 
+                    (focus)="notFocused=false" formControlName="email">
+                </div>
+                <div class="msgWarning" *ngIf="!rForm.controls.email.valid && rForm.controls.email.dirty">
+                  Por favor ingrese un correo electronico valido...
+                </div>
+
+                <div class="form-group">
+                	<label>Contraseña</label>
+                    <input type="password" class="form-control input-underline input-lg"
+                    formControlName="password">
+                </div>
+                <div class="msgWarning" *ngIf="!rForm.controls.password.valid && rForm.controls.password.dirty && alta">
+                  Por favor ingrese este campo...
+                </div>
+
+                <div class="form-group">
+                	<label>Confirme Contraseña</label>
+                    <input type="password" class="form-control input-underline input-lg"
+                    formControlName="password2">
+                </div>
+                <div class="msgWarning" *ngIf="confirmPassword.hasError('invalid')">
+                  Las contraseñas no coinciden...
+                </div>
+
+            </div>
+           
+		    <div class="col-lg-6">
+				<div class="form-group">
+				  <label>Seleccione Perfil</label>
+				  <select class="form-control" formControlName="profile">
+				    <option value="chofer">Chofer</option>
+				    <option value="admin">Admin</option>
+				  </select>
+				</div>
+               
+				<fieldset class="form-group">
+					<label>Subir Imagen</label>
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" lang="es">
+                      <label class="custom-file-label" for="customFileLang">
+                      	<i class="fas fa-camera-retro"></i>
+                      </label>
+                    </div>
+                </fieldset>
+
+                <div class="row">
+                	<div class="col-lg-6">
+		                <div class="form-group">
+		                  <img class="img-thumbnail" src="http://placehold.it/200x200" alt="">
+		                </div>
+		                <button class="btn btn-success btn-block" [disabled]="!rForm.valid">
+		                	Guardar &nbsp;<i class="fas fa-save"></i> 
+		                </button>  
+                    </div>
+                </div>
+		    </div>
+    </div>
+</form>
+
+<ngx-spinner size="large"></ngx-spinner>
+
