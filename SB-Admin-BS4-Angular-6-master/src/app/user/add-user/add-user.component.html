@@ -5,14 +5,14 @@
   <strong>{{ alert.title }}</strong>{{ alert.message }}
 </ngb-alert>
 
-<form [formGroup]="rForm" (ngSubmit)="save()">
+<form [formGroup]="rForm" (ngSubmit)="save()" id="myForm" name="fileinfo" enctype="multipart/form-data">
     <div class="row">
         
             <div class="col-lg-6">
 
                 <div class="form-group">
                 	<label>Nombre</label>
-                    <input type="text" class="form-control input-underline input-lg" 
+                    <input type="text" name="name" class="form-control input-underline input-lg"  
                     formControlName="name">
                 </div>
                 <div class="msgWarning" *ngIf="!rForm.controls.name.valid && rForm.controls.name.dirty">
@@ -21,7 +21,7 @@
 
                 <div class="form-group">
                 	<label>Apellido</label>
-                    <input type="text" class="form-control input-underline input-lg" 
+                    <input type="text" name="lastName" class="form-control input-underline input-lg" 
                     formControlName="lastName">
                 </div>
                 <div class="msgWarning" *ngIf="!rForm.controls.lastName.valid && rForm.controls.lastName.dirty">
@@ -30,7 +30,7 @@
 
                 <div class="form-group">
                 	<label>Correo Electronico</label>
-                    <input type="email" class="form-control input-underline input-lg" 
+                    <input type="email" name="email" class="form-control input-underline input-lg" 
                     (focus)="notFocused=false" formControlName="email">
                 </div>
                 <div class="msgWarning" *ngIf="!rForm.controls.email.valid && rForm.controls.email.dirty">
@@ -39,7 +39,7 @@
 
                 <div class="form-group">
                 	<label>Contraseña</label>
-                    <input type="password" class="form-control input-underline input-lg"
+                    <input type="password" name="password" class="form-control input-underline input-lg"
                     formControlName="password">
                 </div>
                 <div class="msgWarning" *ngIf="!rForm.controls.password.valid && rForm.controls.password.dirty && alta">
@@ -60,7 +60,7 @@
 		    <div class="col-lg-6">
 				<div class="form-group">
 				  <label>Seleccione Perfil</label>
-				  <select class="form-control" formControlName="profile">
+				  <select name="profile" class="form-control" formControlName="profile">
 				    <option value="chofer">Chofer</option>
 				    <option value="admin">Admin</option>
 				  </select>
@@ -69,7 +69,7 @@
 				<fieldset class="form-group">
 					<label>Subir Imagen</label>
                     <div class="custom-file">
-                      <input type="file" class="custom-file-input" lang="es">
+                      <input type="file" name="avatar" id="avatar" class="custom-file-input">
                       <label class="custom-file-label" for="customFileLang">
                       	<i class="fas fa-camera-retro"></i>
                       </label>

@@ -28,5 +28,9 @@ export class UsuariosService {
     return this.miHttp.runDelete(endPoint,user._id, user);
   }
 
+  uploadFile(endPoint: string, file: any){
+     return this.miHttp.runPostFormData(endPoint,file);
+  }
+
 
 }

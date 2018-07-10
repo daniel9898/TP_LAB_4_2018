@@ -1,6 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
 import { UsuariosService } from '../../servicios/user/usuarios.service';
+import { UploadFileService } from '../../servicios/uploadFile/upload-file.service';
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ValidatePassword } from '../../signup/password.validator';
@@ -27,12 +28,14 @@ export class AddUserComponent implements OnDestroy {
   }; 
   user_to_update : any;
   alta : boolean = true;
+  userCreated : any;
    
   constructor(public _user: UsuariosService,
               private fb: FormBuilder,
               private router: Router,
               private spinner: NgxSpinnerService,
-              public act_router: ActivatedRoute) {}
+              public act_router: ActivatedRoute,
+              public _fileUploader: UploadFileService) {}
   //usuarios de prueba : daniel@admin.com,daniel@chofer.com,daniel@cliente.com
   ngOnInit() {
 
@@ -48,11 +51,11 @@ export class AddUserComponent implements OnDestroy {
 
   setValidator(){
     this.rForm = this.fb.group({
-      'name' : [!this.alta ? this.user_to_update.name : '',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
-      'lastName' : [!this.alta ? this.user_to_update.lastName : '', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
-      'email' : [!this.alta ? this.user_to_update.email : '',  Validators.compose([Validators.required, Validators.email])],
-      'password' : [null , Validators.compose([this.alta ? Validators.required : null, Validators.minLength(4), Validators.maxLength(15)])],
-      'password2' : [null ,Validators.compose([this.alta ? Validators.required : null, ValidatePassword ,Validators.minLength(4), Validators.maxLength(15)])],
+      'name' : [!this.alta ? this.user_to_update.name : 'test1',  Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
+      'lastName' : [!this.alta ? this.user_to_update.lastName : 'test2', Validators.compose([Validators.required, Validators.minLength(4), Validators.maxLength(10)])],
+      'email' : [!this.alta ? this.user_to_update.email : 'test@test01.com',  Validators.compose([Validators.required, Validators.email])],
+      'password' : ['123456' , Validators.compose([this.alta ? Validators.required : null, Validators.minLength(4), Validators.maxLength(15)])],
+      'password2' : ['123456' ,Validators.compose([this.alta ? Validators.required : null, ValidatePassword ,Validators.minLength(4), Validators.maxLength(15)])],
       'profile' : [!this.alta ? this.user_to_update.profile : 'chofer'],
       'picture' : [!this.alta ? this.user_to_update.picture : 'http://www.cwejournal.org/images/user.jpg'],
       'signUp' : [this.user_to_update.signUp]
@@ -61,7 +64,7 @@ export class AddUserComponent implements OnDestroy {
 
   save(){
     this.submitted = true;
-    this.spinner.show();
+    //this.spinner.show();
     this.alta ? this.createUser() : this.updateUser(); 
   }
 
@@ -75,25 +78,47 @@ export class AddUserComponent implements OnDestroy {
 
   createUser(){
     
-    this.spinner.show();
     console.log(this.rForm.value);
     let user = this.rForm.value;
     user.signUp = new Date().toLocaleString();
     delete user.password2;
- 
-    const userSubs1 = this._user.save('signup',user).subscribe(
-        userCreated => {
 
-            this.showAlert('Usuario Creado Exitosamente !','success');
-            setTimeout(this.hideAlert.bind(this),6000);
-            this.rForm.reset();
-            console.log(userCreated);//NO DEBERIA RETORNAR EL PASS Y ID 
-            this.spinner.hide();
+    let formData = new FormData();
+    console.log('file ',(<HTMLInputElement>document.getElementById('avatar')).files[0] );
+    formData.append('avatar', (<HTMLInputElement>document.getElementById('avatar')).files[0]);
+
+    const userSubs1 = this._user.save('signup',user).subscribe(
+        resp => {
+
+            this.userCreated = resp['user'];
+            this._fileUploader.send('upload',formData).subscribe(
+                upload => {
+
+                  console.log('uploadOk',upload);
+                  this.userCreated.picture = upload['url'];
+                  
+                  this._user.update('users',this.userCreated).subscribe(
+                     userUpdate => {
+
+                        this.showAlert('Usuario Creado Exitosamente !','success');
+                        setTimeout(this.hideAlert.bind(this),6000);
+                        this.rForm.reset();
+                        console.log(userUpdate);//NO DEBERIA RETORNAR EL PASS Y ID 
+                        this.spinner.hide();
+
+                     },
+                     error => console.log('error en user update',error)
+                  )
+                },
+                error =>{
+                  console.log('error en subir img',error);
+                } 
+            )
         
         },
         err => {
             this.notFocused = true;
-            this.showAlert(err['message'],'warning');
+            this.showAlert(err.error['message'],'warning');
             this.spinner.hide();
             console.log('ERROR ',err);
         } 
@@ -105,7 +130,6 @@ export class AddUserComponent implements OnDestroy {
 
   updateUser(){
     
-    this.spinner.show();
     console.log(this.rForm.value);
     let user = this.rForm.value;
     user._id = this.user_to_update._id;

@@ -22,11 +22,15 @@ export class CustomHttpService {
   }
 
   runDelete(endPoint: string, id: any, car: any){
-     return this.http.put(`${this.url}${endPoint}/${id}`, car, this.getHeaders());
+    return this.http.put(`${this.url}${endPoint}/${id}`, car, this.getHeaders());
   }
 
   runUpdate(endPoint: string, id: any, car: any){
-     return this.http.put(`${this.url}${endPoint}/${id}`, car, this.getHeaders());
+    return this.http.put(`${this.url}${endPoint}/${id}`, car, this.getHeaders());
+  }
+
+  runPostFormData(endPoint: string, file: any){
+    return this.http.post(`${this.url}${endPoint}`, file);
   }
 
   private getHeaders(){
