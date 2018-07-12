@@ -28,7 +28,7 @@ export class ListComponent implements OnDestroy {
     this.listSub = this._user.getAll('users').subscribe(
      (resp:any) => this.list = resp['users'],
       error => {
-        this.showAlert(error['message'],'warning');
+        this.showAlert(error.error.message,'warning');
         this.see_table = false;
         
       }

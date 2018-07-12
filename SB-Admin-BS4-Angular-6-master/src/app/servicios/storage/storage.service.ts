@@ -4,14 +4,11 @@ import { CustomHttpService } from '../custom-http.service';
 @Injectable({
   providedIn: 'root'
 })
-export class UploadFileService {
+export class StorageService {
 
   constructor(private miHttp: CustomHttpService) { }
 
-
-  send(endPoint: string,file: any){
+  uploadFile(endPoint: string,file: any){
     return this.miHttp.runPostFormData(endPoint, file);
   }
-
-
 }

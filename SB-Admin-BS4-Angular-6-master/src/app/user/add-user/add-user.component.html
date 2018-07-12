@@ -67,20 +67,12 @@
 				</div>
                
 				<fieldset class="form-group">
-					<label>Subir Imagen</label>
-                    <div class="custom-file">
-                      <input type="file" name="avatar" id="avatar" class="custom-file-input">
-                      <label class="custom-file-label" for="customFileLang">
-                      	<i class="fas fa-camera-retro"></i>
-                      </label>
-                    </div>
+					<label>Imagen&nbsp; <i class="fas fa-camera-retro"></i></label><br>
+                    <input type="file" name="avatar" id="avatar" (change)="fileChangeEvent($event)">
                 </fieldset>
 
                 <div class="row">
                 	<div class="col-lg-6">
-		                <div class="form-group">
-		                  <img class="img-thumbnail" src="http://placehold.it/200x200" alt="">
-		                </div>
 		                <button class="btn btn-success btn-block" [disabled]="!rForm.valid">
 		                	Guardar &nbsp;<i class="fas fa-save"></i> 
 		                </button>  
