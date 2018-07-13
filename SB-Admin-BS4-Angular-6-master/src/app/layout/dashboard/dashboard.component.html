@@ -1,7 +1,7 @@
 <div [@routerTransition]>
-<app-page-header [heading]="'Genere su reserva...'" [icon]="'far fa-suitcase'"></app-page-header>
     <div class="row">
         <div class="col-lg-4">
+            <app-page-header [heading]="'Genere su reserva...'" [icon]="'far fa-suitcase'"></app-page-header>
             <div class="card mb-3">
                 <div class="card-header">Seleccione fecha y hora</div>
                 <div class="card-body">
@@ -19,9 +19,64 @@
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-success btn-block" (click)="save()" [disabled]="false">
-              Reservar &nbsp;<i class="fas fa-car"></i> 
-            </button>
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-6">
+                    <fieldset class="form-group">
+                        <label>Origen  &nbsp; &nbsp;</label>
+                        <i class="fas fa-globe" (click)="goMyUbication()"></i>
+                        <input places-auto-complete
+                               class="form-control"
+                               (place_changed)="placeChanged($event,'ori')"
+                               [types]="['geocode']">
+                    </fieldset>
+                </div>
+                <div class="col-lg-6">
+                    <fieldset class="form-group">
+                        <label>Destino</label>
+                        <input class="form-control"
+                               places-auto-complete
+                               class="form-control"
+                               (place_changed)="placeChanged($event,'des')"
+                               [types]="['geocode']" >
+                    </fieldset>
+                </div>
+            </div>
+            
+            <p>
+           
+            <ngui-map [center]="center">
+
+                <marker
+                    (dragstart)="log($event, 'dragstart')"
+                    (dragend)="log($event, 'dragend')"
+                    draggable="true">
+                </marker>  
+              
+            </ngui-map>
+                
+            </p>
+            <hr>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <fieldset class="form-group">
+                        <button type="submit" class="btn btn-success btn-block"  [disabled]="false">
+                          Preferencias &nbsp;<i class="fas fa-car"></i> 
+                        </button>
+                    </fieldset>
+                </div>
+                <div class="col-lg-6">
+                   <fieldset class="form-group">
+                        <button type="submit" class="btn btn-info btn-block" (click)="save()" 
+                        [disabled]="false">
+                          Reservar &nbsp;<i class="fas fa-car"></i> 
+                        </button>
+                    </fieldset>
+                </div>
+            </div>
+        
         </div>
     </div>
 </div>

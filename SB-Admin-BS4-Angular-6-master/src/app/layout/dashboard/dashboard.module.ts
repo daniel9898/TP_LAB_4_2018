@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
@@ -20,9 +21,11 @@ import { StatModule } from '../../shared';
         PageHeaderModule,
         NgbCarouselModule.forRoot(),
         NgbAlertModule.forRoot(),
+        FormsModule,
         DashboardRoutingModule,
-        StatModule,
-        NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=MY_GOOGLE_API_KEY'}),
+        StatModule,               //api de proyecto firebase danielpereirautn(plan pago por uso)
+        NguiMapModule.forRoot( 
+          {apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyCc7ie0QU50WYMpcrHz_U6Hn_DrxCFFvfo&libraries=places'}),
         BsComponentModule
     ],
     declarations: [
