@@ -1,5 +1,7 @@
+/* global google */
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+
 
 @Component({
     selector: 'app-dashboard',
@@ -7,6 +9,7 @@ import { routerTransition } from '../../router.animations';
     styleUrls: ['./dashboard.component.scss'],
     animations: [routerTransition()]
 })
+
 export class DashboardComponent implements OnInit {
 
     selection = {
@@ -37,25 +40,29 @@ export class DashboardComponent implements OnInit {
     autocomplete: any;
     address: any = {};
     center: any;
+    marker_origin : any;
+    marker_destiny : any;
+    default_origin : string;
 
     //[43.73154789999999, -79.7449296972229]
 
     constructor(private ref: ChangeDetectorRef) {}
 
     ngOnInit() {
-      //this.center = 'Tokio, Japón';
-
+      this.default_origin = 'Mi ubicación';
     }
 
     initialized(autocomplete: any) {
         this.autocomplete = autocomplete;
+        
     }
 
     placeChanged(place:any, type:string) {
         console.log(place,type);
+
         this.setDataLocation(place,type);       
-  
         this.center = place.geometry.location;
+
         for (let i = 0; i < place.address_components.length; i++) {
               let addressType = place.address_components[i].types[0];
               this.address[addressType] = place.address_components[i].long_name;
@@ -67,10 +74,12 @@ export class DashboardComponent implements OnInit {
     setDataLocation(place:any, type:string){
 
         if(type == 'ori'){
+            this.marker_origin = place.geometry.location;
             this.reserv.origin = place.formatted_address;
             this.reserv.coord_origin.lat = place.geometry.location.lat();
             this.reserv.coord_origin.lon = place.geometry.location.lng();
         }else{
+            this.marker_destiny = place.geometry.location;
             this.reserv.destiny = place.formatted_address;
             this.reserv.coord_destiny.lat = place.geometry.location.lat();
             this.reserv.coord_destiny.lon = place.geometry.location.lng();
@@ -90,18 +99,13 @@ export class DashboardComponent implements OnInit {
 
     goMyUbication(){
         navigator.geolocation.getCurrentPosition( pos => {
-          this.center =  new google.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+          this.default_origin = 'Mi ubicación';
+          this.center = new google.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+          this.marker_origin = this.center;
         });
     }
 
-    log(event, str) {
-
-        if (event instanceof MouseEvent) {
-          return false;
-        }
-        console.log('event .... >', event, str);
-    }
-
+  
     save(){ 
        console.log(this.reserv);
     }

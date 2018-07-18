@@ -27,6 +27,7 @@
                         <label>Origen  &nbsp; &nbsp;</label>
                         <i class="fas fa-globe" (click)="goMyUbication()"></i>
                         <input places-auto-complete
+                               [(ngModel)]="default_origin" 
                                class="form-control"
                                (place_changed)="placeChanged($event,'ori')"
                                [types]="['geocode']">
@@ -44,19 +45,12 @@
                 </div>
             </div>
             
-            <p>
-           
+    
             <ngui-map [center]="center">
-
-                <marker
-                    (dragstart)="log($event, 'dragstart')"
-                    (dragend)="log($event, 'dragend')"
-                    draggable="true">
-                </marker>  
-              
+               <marker [position]="marker_destiny"></marker>
+               <marker [position]="marker_origin"></marker>
             </ngui-map>
                 
-            </p>
             <hr>
 
             <div class="row">
