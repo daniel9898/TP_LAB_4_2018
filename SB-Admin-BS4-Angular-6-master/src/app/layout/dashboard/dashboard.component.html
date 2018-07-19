@@ -49,7 +49,15 @@
             <ngui-map [center]="center">
                <marker [position]="marker_destiny"></marker>
                <marker [position]="marker_origin"></marker>
+               <directions-renderer
+                [suppressMarkers]="true"
+                (directions_changed)="directionsChanged()"
+                [draggable]="false"
+                panel="#my-panel"
+                [directions-request]="direction">
+              </directions-renderer>
             </ngui-map>
+            <div id="my-panel"></div>
                 
             <hr>
 

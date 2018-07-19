@@ -1,6 +1,6 @@
-/* global google */
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { DirectionsRenderer } from '@ngui/map';
 
 
 @Component({
@@ -37,29 +37,65 @@ export class DashboardComponent implements OnInit {
         duration : '', 
     }
 
-    autocomplete: any;
     address: any = {};
     center: any;
     marker_origin : any;
     marker_destiny : any;
     default_origin : string;
 
-    //[43.73154789999999, -79.7449296972229]
+    @ViewChild(DirectionsRenderer) directionsRendererDirective: DirectionsRenderer;
+    directionsRenderer: google.maps.DirectionsRenderer;
+    directionsResult: google.maps.DirectionsResult;
+    direction: any = {
+        provideRouteAlternatives : true,
+        origin: {lat: 0, lng: 0},
+        destination: {lat: 0, lng: 0},
+        travelMode: 'DRIVING'
+    };
+    line : any;
 
+ 
     constructor(private ref: ChangeDetectorRef) {}
 
     ngOnInit() {
-      this.default_origin = 'Mi ubicación';
+        this.default_origin = 'Mi ubicación';
+        this.goMyUbication();
+        this.directionsRendererDirective['initialized$'].subscribe( directionsRenderer => {
+           this.directionsRenderer = directionsRenderer;
+        });
     }
 
-    initialized(autocomplete: any) {
-        this.autocomplete = autocomplete;
-        
+    showDirection() {
+        this.directionsRendererDirective['showDirections'](this.direction);
     }
+
+    directionsChanged() {
+        this.directionsResult = this.directionsRenderer.getDirections();
+        console.log(this.directionsResult);
+        if (this.directionsResult['status'] == 'OK') {
+            for(var i in this.directionsResult.routes ) {
+
+                this.line = new google.maps.Polyline({
+
+                  path: this.directionsResult.routes[i].overview_path,
+                  strokeColor: "#808080",  // you might want different colors per suggestion
+                  strokeOpacity: 0.7,
+                  strokeWeight: 3
+                });
+       
+                this.line.setMap(this.directionsRenderer.getMap());
+            }
+          }
+  }
+
 
     placeChanged(place:any, type:string) {
         console.log(place,type);
 
+        if(this.line != null){
+           this.line.setMap(null);
+        }
+        
         this.setDataLocation(place,type);       
         this.center = place.geometry.location;
 
@@ -78,13 +114,16 @@ export class DashboardComponent implements OnInit {
             this.reserv.origin = place.formatted_address;
             this.reserv.coord_origin.lat = place.geometry.location.lat();
             this.reserv.coord_origin.lon = place.geometry.location.lng();
+            this.direction.origin = place.geometry.location;
         }else{
             this.marker_destiny = place.geometry.location;
             this.reserv.destiny = place.formatted_address;
             this.reserv.coord_destiny.lat = place.geometry.location.lat();
             this.reserv.coord_destiny.lon = place.geometry.location.lng();
+            this.direction.destination = place.geometry.location;  
         }
-
+        
+        this.showDirection();
     }
 
     takeTime(time:any){
@@ -99,9 +138,14 @@ export class DashboardComponent implements OnInit {
 
     goMyUbication(){
         navigator.geolocation.getCurrentPosition( pos => {
-          this.default_origin = 'Mi ubicación';
-          this.center = new google.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
-          this.marker_origin = this.center;
+            this.default_origin = 'Mi ubicación';
+            this.center = new google.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+            this.marker_origin = this.center;
+            this.direction.origin = this.center;
+
+            if(this.direction.destination.lat != 0){
+               this.showDirection(); 
+            }
         });
     }
 
