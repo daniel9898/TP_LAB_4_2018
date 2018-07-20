@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { DirectionsRenderer } from '@ngui/map';
+import { GeocodeService } from '../../servicios/geocode/geocode.service';
 
 
 @Component({
@@ -52,10 +53,10 @@ export class DashboardComponent implements OnInit {
         destination: {lat: 0, lng: 0},
         travelMode: 'DRIVING'
     };
-    line : any;
+    line = [];
 
  
-    constructor(private ref: ChangeDetectorRef) {}
+    constructor(public _geocode:GeocodeService) {}
 
     ngOnInit() {
         this.default_origin = 'Mi ubicación';
@@ -71,40 +72,53 @@ export class DashboardComponent implements OnInit {
 
     directionsChanged() {
         this.directionsResult = this.directionsRenderer.getDirections();
-        console.log(this.directionsResult);
+        
         if (this.directionsResult['status'] == 'OK') {
-            for(var i in this.directionsResult.routes ) {
+            this.removePolyline();
+    
+            this.reserv.kilometers = this.directionsResult.routes[0].legs[0].distance.text;
+            this.reserv.duration = this.directionsResult.routes[0].legs[0].duration.text;
 
-                this.line = new google.maps.Polyline({
-
+            for(let i in this.directionsResult.routes) {
+                
+                this.line.push(new google.maps.Polyline({
                   path: this.directionsResult.routes[i].overview_path,
-                  strokeColor: "#808080",  // you might want different colors per suggestion
+                  strokeColor: "#808080", 
                   strokeOpacity: 0.7,
                   strokeWeight: 3
-                });
-       
-                this.line.setMap(this.directionsRenderer.getMap());
+                }));
+               
+                this.line[i].setMap(this.directionsRenderer.getMap());
             }
           }
-  }
+    }
 
+    addPolyline(){
+
+    }
+ 
+    removePolyline(){
+        if(this.line.length > 0){
+            for (var i = 0; i < this.line.length; i++) {
+                this.line[i].setMap(null);
+            }
+            this.line = [];
+        }
+    }
 
     placeChanged(place:any, type:string) {
         console.log(place,type);
-
-        if(this.line != null){
-           this.line.setMap(null);
-        }
         
-        this.setDataLocation(place,type);       
-        this.center = place.geometry.location;
+        if(place['geometry'] != null){
 
-        for (let i = 0; i < place.address_components.length; i++) {
-              let addressType = place.address_components[i].types[0];
-              this.address[addressType] = place.address_components[i].long_name;
+            this.setDataLocation(place,type);       
+            this.center = place.geometry.location;
+
+            for (let i = 0; i < place.address_components.length; i++) {
+                  let addressType = place.address_components[i].types[0];
+                  this.address[addressType] = place.address_components[i].long_name;
+            }
         }
-
-        this.ref.detectChanges();
     }
 
     setDataLocation(place:any, type:string){
@@ -142,15 +156,27 @@ export class DashboardComponent implements OnInit {
             this.center = new google.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
             this.marker_origin = this.center;
             this.direction.origin = this.center;
-
+            this.reserv.coord_origin.lat = pos.coords.latitude;
+            this.reserv.coord_origin.lon = pos.coords.longitude;
+            this.setPlace(pos.coords.latitude,pos.coords.longitude);
+               
             if(this.direction.destination.lat != 0){
                this.showDirection(); 
             }
         });
     }
 
-  
-    save(){ 
+    async setPlace(lat:number, lng:number){
+        try{
+            let result = await this._geocode.getPlace(lat,lng);
+            this.reserv.origin = result.json().results[0].formatted_address;
+        }catch(e){
+            console.log('error en getPlace ',e);
+        }
+    }
+
+    save(){
+       this.reserv.date_created = new Date().toLocaleString(); 
        console.log(this.reserv);
     }
     
