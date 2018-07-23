@@ -12,6 +12,7 @@ export class DatePickerComponent implements OnInit {
     min_date : any;
     max_date : any;
     start_date : any;
+    placeholder: string;
     @Output() sendDate : EventEmitter<any> = new EventEmitter<any>();
    
     constructor() { }
@@ -23,7 +24,8 @@ export class DatePickerComponent implements OnInit {
         	month : date.getMonth()+1,
         	year : date.getFullYear()
         }
-
+        
+        this.placeholder = `${d.year}-${d.month}-${d.day}`;
     	this.min_date =   { year: d.year , month: d.month , day: d.day };
     	this.max_date =   { year: d.year+1, month: 1 , day: 31 }; //falta validacion
     	this.start_date = { year: d.year, month: d.month, day: d.day };

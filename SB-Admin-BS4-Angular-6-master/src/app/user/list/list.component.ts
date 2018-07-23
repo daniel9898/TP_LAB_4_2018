@@ -35,9 +35,9 @@ export class ListComponent implements OnDestroy {
     )
   }
 
-  refresh(refresh){
+  refresh(refresh:boolean){
     if(refresh){
-       this.getUsers();
+      this.getUsers();
     }
   }
 

@@ -1,7 +1,7 @@
 
 
 <div class="input-group datepicker-input">
-    <input class="form-control" placeholder="yyyy-mm-dd"
+    <input class="form-control" placeholder="{{placeholder}}"
         name="dp" [minDate]="min_date" [maxDate]="max_date" [startDate]="start_date"
         [(ngModel)]="model" ngbDatepicker #d="ngbDatepicker" (ngModelChange)="onChangeDate($event)">
 

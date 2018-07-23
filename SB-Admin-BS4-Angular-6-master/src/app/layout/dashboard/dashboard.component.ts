@@ -13,29 +13,38 @@ import { GeocodeService } from '../../servicios/geocode/geocode.service';
 
 export class DashboardComponent implements OnInit {
 
+    //VALIDAR EN EL SERVER LA HORA Y MINUTOS Y 
+    //QUE NO HALLA RESERVA MISMO DIA MISMA HORA MISMO AUTO
+
+    kilometer_price : number = 20;
+    preferences: string = 'Ninguna.'
+
     selection = {
       date : '',
       time : ''
     }
 
     reserv : any = {
-        date : '',
-        hour : '',
-        origin : '',
-        destiny :'' ,
+        date : null,
+        hour : null,
+        origin : null,
+        destiny : null,
         coord_origin : {
             lat : '',
             lon : ''
         },
         coord_destiny : {
-            lat : '',
-            lon : ''
+            lat : null,
+            lon : null
         },
         client : JSON.parse(localStorage.getItem('user')).user._id,
         state : 'pendiente',
         date_created : '',
         kilometers : '',
-        duration : '', 
+        duration : '',
+        car_selected : null,
+        payment_method : 'efectivo',
+        approx_price : 0 
     }
 
     address: any = {};
@@ -43,7 +52,8 @@ export class DashboardComponent implements OnInit {
     marker_origin : any;
     marker_destiny : any;
     default_origin : string;
-
+    default_destiny : string;
+  
     @ViewChild(DirectionsRenderer) directionsRendererDirective: DirectionsRenderer;
     directionsRenderer: google.maps.DirectionsRenderer;
     directionsResult: google.maps.DirectionsResult;
@@ -54,13 +64,20 @@ export class DashboardComponent implements OnInit {
         travelMode: 'DRIVING'
     };
     line = [];
+    //view_panel : boolean = true;
+    alert = {
+        view : false,
+        type : '',
+        title : 'Atención ',
+        message: ''
+    };
 
  
     constructor(public _geocode:GeocodeService) {}
 
     ngOnInit() {
         this.default_origin = 'Mi ubicación';
-        this.goMyUbication();
+        setTimeout(this.goMyUbication.bind(this),1000);
         this.directionsRendererDirective['initialized$'].subscribe( directionsRenderer => {
            this.directionsRenderer = directionsRenderer;
         });
@@ -72,12 +89,16 @@ export class DashboardComponent implements OnInit {
 
     directionsChanged() {
         this.directionsResult = this.directionsRenderer.getDirections();
+        console.log("directionsChanged :  ",this.directionsResult);
         
         if (this.directionsResult['status'] == 'OK') {
-            this.removePolyline();
+            this.removePolylines();
     
             this.reserv.kilometers = this.directionsResult.routes[0].legs[0].distance.text;
             this.reserv.duration = this.directionsResult.routes[0].legs[0].duration.text;
+            this.reserv.approx_price = this.kilometer_price * this.reserv.kilometers.split(' ')[0];
+            this.showAlert('Precio aproximado : $ '+this.reserv.approx_price,'info','');
+            console.log(this.reserv.approx_price);
 
             for(let i in this.directionsResult.routes) {
                 
@@ -93,11 +114,7 @@ export class DashboardComponent implements OnInit {
           }
     }
 
-    addPolyline(){
-
-    }
- 
-    removePolyline(){
+    removePolylines(){
         if(this.line.length > 0){
             for (var i = 0; i < this.line.length; i++) {
                 this.line[i].setMap(null);
@@ -107,7 +124,7 @@ export class DashboardComponent implements OnInit {
     }
 
     placeChanged(place:any, type:string) {
-        console.log(place,type);
+        console.log("placeChanged :  ",place,type);
         
         if(place['geometry'] != null){
 
@@ -130,11 +147,12 @@ export class DashboardComponent implements OnInit {
             this.reserv.coord_origin.lon = place.geometry.location.lng();
             this.direction.origin = place.geometry.location;
         }else{
+            this.alert.view = false;
             this.marker_destiny = place.geometry.location;
             this.reserv.destiny = place.formatted_address;
             this.reserv.coord_destiny.lat = place.geometry.location.lat();
             this.reserv.coord_destiny.lon = place.geometry.location.lng();
-            this.direction.destination = place.geometry.location;  
+            this.direction.destination = place.geometry.location;
         }
         
         this.showDirection();
@@ -146,8 +164,14 @@ export class DashboardComponent implements OnInit {
     }
 
     takeDate(date:any){
-        this.selection.date = date.day +'/'+ date.month +'/'+ date.year ;
-        this.reserv.date = this.selection.date;
+        this.selection.date = date.day +'/'+ date.month +'/'+ date.year;
+        this.reserv.date =  date.year +'-'+ date.month +'-'+ date.day;
+    }
+
+    takeCar(car:any){
+      console.log('car ',car);
+      this.reserv.car_selected = car;
+      this.preferences = `${car.brand}-${car.model}`;
     }
 
     goMyUbication(){
@@ -175,9 +199,17 @@ export class DashboardComponent implements OnInit {
         }
     }
 
-    save(){
-       this.reserv.date_created = new Date().toLocaleString(); 
-       console.log(this.reserv);
+    takeResultConfirm(emptyFields:boolean){
+        if(emptyFields){
+           this.showAlert('Faltan los siguientes campos : Destino','warning');
+        }
+    }
+
+    showAlert(message:any,type:string,title?:string){
+        this.alert.title = title;
+        this.alert.type = type;
+        this.alert.message = message;
+        this.alert.view = true;
     }
     
 }

@@ -14,6 +14,7 @@ import { HttpModule } from '@angular/http';
 import { CustomHttpService } from './servicios/custom-http.service';
 import { UsuariosService } from './servicios/user/usuarios.service';
 import { CarService } from './servicios/car/car.service';
+import { ReservService } from './servicios/reserv/reserv.service';
 
 @NgModule({
     imports: [
@@ -25,7 +26,7 @@ import { CarService } from './servicios/car/car.service';
         AppRoutingModule
     ],
     declarations: [AppComponent],
-    providers: [AuthGuard,UsuariosService,CustomHttpService,CarService],
+    providers: [AuthGuard,UsuariosService,CustomHttpService,CarService,ReservService],
     bootstrap: [AppComponent]
 })
 export class AppModule {}

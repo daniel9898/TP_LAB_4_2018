@@ -158,10 +158,6 @@ export class AddCarComponent implements OnDestroy {
       } 
   }
 
-  
-
-
-
 }
 
 
