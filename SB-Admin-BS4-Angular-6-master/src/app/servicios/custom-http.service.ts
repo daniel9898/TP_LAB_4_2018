@@ -17,6 +17,10 @@ export class CustomHttpService {
   	return this.http.get(`${this.url}${endPoint}`);        
   }
 
+  runGetWhitParam(endPoint: string, id: any){
+    return this.http.get(`${this.url}${endPoint}/${id}`); 
+  }
+
   runPost(endPoint: string, data: any){
     return this.http.post(`${this.url}${endPoint}`, data, this.getHeaders());
   }

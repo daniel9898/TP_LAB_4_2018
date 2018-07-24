@@ -12,6 +12,10 @@ export class ReservService {
     return this.miHttp.runGet(endPoint);
   }
 
+  getAllbyIdClient(endPoint: string, id:any){
+    return this.miHttp.runGetWhitParam(endPoint,id);
+  }
+
   save(endPoint: string, data: any){
     return this.miHttp.runPost(endPoint, data);
   }

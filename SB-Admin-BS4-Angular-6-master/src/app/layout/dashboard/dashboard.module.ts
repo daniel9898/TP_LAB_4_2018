@@ -14,6 +14,8 @@ import {
     ChatComponent
 } from './components';
 import { StatModule } from '../../shared';
+import { ReservListComponent } from './reserv-list/reserv-list.component';
+import { RouterComponent } from './router/router.component';
 
 @NgModule({
     imports: [
@@ -32,7 +34,9 @@ import { StatModule } from '../../shared';
         DashboardComponent,
         TimelineComponent,
         NotificationComponent,
-        ChatComponent
+        ChatComponent,
+        ReservListComponent,
+        RouterComponent
     ]
 })
 export class DashboardModule {}

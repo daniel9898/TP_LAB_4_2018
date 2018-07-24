@@ -1,7 +1,7 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
     <div class="list-group">
 
-        <a *ngIf="profile == 'admin' || profile == 'cliente'" routerLink="/dashboard" 
+        <a *ngIf="profile == 'admin' || profile == 'cliente'" routerLink="/dashboard/reserv" 
         [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-dashboard"></i>&nbsp; Reservar
         </a>
@@ -11,7 +11,7 @@
             <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp; Estadisticas
         </a>
 
-        <a *ngIf="profile == 'admin' || profile == 'cliente'" [routerLink]="['/tables']" 
+        <a *ngIf="profile == 'admin' || profile == 'cliente'" [routerLink]="['/dashboard/mytrips']" 
         [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-table"></i>&nbsp; Mis Viajes
         </a>
