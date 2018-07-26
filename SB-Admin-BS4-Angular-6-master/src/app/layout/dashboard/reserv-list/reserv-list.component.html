@@ -10,7 +10,7 @@
 	  <thead>
 	    <tr>
 	      <th scope="col">#</th>
-	      <th scope="col">Fecha</th>
+	      <th scope="col">Fecha&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
 	      <th scope="col">Hora</th>
 	      <th scope="col">Origen</th>
 	      <th scope="col">Destino</th>
@@ -29,8 +29,8 @@
 		    <td>${{ reserv.approx_price }}</td>
 		    <td>
 				<div class="btn-group" role="group" aria-label="Basic example">
-                  <!--<modal-delete-car [car]="car" (refreshList)="refresh($event)">
-                  </modal-delete-car>-->
+                  <app-modal-baja-reserva [reserv]="reserv" (refreshList)="refresh($event)">
+                  </app-modal-baja-reserva>
 				  <button type="button" class="btn btn-warning" (click)="editReserv(reserv)">
 				  	<i class="fas fa-edit"></i>
 				  </button>

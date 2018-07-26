@@ -9,9 +9,11 @@
 
                     <form class="form-inline ">
                         
-                        <app-date-picker (sendDate)="takeDate($event)"> </app-date-picker>&nbsp;&nbsp;
+                        <app-date-picker [data]="data" (sendDate)="takeDate($event)">
+                        </app-date-picker>&nbsp;&nbsp;
                          
-                        <app-timepicker (sendTime)="takeTime($event)"></app-timepicker>
+                        <app-timepicker [data]="data" (sendTime)="takeTime($event)">
+                        </app-timepicker>
                       
                     </form>
 
@@ -45,9 +47,10 @@
                 </div>
                 <div class="col-lg-6">
                     <app-modal-confirmacion 
-                    (sendResult)="takeResultConfirm($event)" 
-                    [reserv]="reserv" 
-                    [car_selected]="reserv.car_selected"
+                    (sendValidation)="takeValidation($event)" 
+                    (sendResult)="takeResult($event)" 
+                    [reserv]="reserv"
+                    [create]="create"  
                     [default_destiny]="default_destiny"> 
                     </app-modal-confirmacion> 
                 </div>

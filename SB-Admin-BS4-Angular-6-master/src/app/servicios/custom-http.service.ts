@@ -9,9 +9,7 @@ export class CustomHttpService {
   url: string = 'https://tplab4.herokuapp.com/';
   token: string;
 
-  constructor(public http: HttpClient) {
-    this.token =  JSON.parse(localStorage.getItem('user')).token;
-  }
+  constructor(public http: HttpClient) { }
 
   runGet(endPoint: string){
   	return this.http.get(`${this.url}${endPoint}`);        
@@ -38,7 +36,8 @@ export class CustomHttpService {
   }
 
   private getHeaders(){
-    return { headers: new HttpHeaders({'Authorization': 'Bearer '+this.token,'Content-Type': 'application/json'}) };
+    let token =  JSON.parse(localStorage.getItem('user')).token;
+    return { headers: new HttpHeaders({'Authorization': 'Bearer '+token,'Content-Type': 'application/json'}) };
   }
 
 }

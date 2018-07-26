@@ -30,6 +30,7 @@ import {
 
 import { ModalPreferenciasComponent } from './components/modal-preferencias/modal-preferencias.component';
 import { ModalConfirmacionComponent } from './components/modal-confirmacion/modal-confirmacion.component';
+import { ModalBajaReservaComponent } from './components/modal-baja-reserva/modal-baja-reserva.component';
 
 
 @NgModule({
@@ -64,8 +65,17 @@ import { ModalConfirmacionComponent } from './components/modal-confirmacion/moda
         TooltipComponent,
         TimepickerComponent,
         ModalPreferenciasComponent,
-        ModalConfirmacionComponent
+        ModalConfirmacionComponent,
+        ModalBajaReservaComponent
     ],
-     exports: [ModalComponent,ModalBajaUserComponent,DatePickerComponent,TimepickerComponent,ModalPreferenciasComponent,ModalConfirmacionComponent]
+     exports: [
+        ModalComponent,
+        ModalBajaUserComponent,
+        DatePickerComponent,
+        TimepickerComponent,
+        ModalPreferenciasComponent,
+        ModalConfirmacionComponent,
+        ModalBajaReservaComponent
+    ]
 })
 export class BsComponentModule {}

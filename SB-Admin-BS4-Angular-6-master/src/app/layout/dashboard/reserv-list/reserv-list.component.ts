@@ -42,10 +42,10 @@ export class ReservListComponent implements OnDestroy {
     }
   }
 
-  /*editReserv(car:any){
-    localStorage.setItem('car_to_update',JSON.stringify(car));
-    this.router.navigate(['car/add',{ alta: false }]);
-  }*/
+  editReserv(reserv:any){
+    localStorage.setItem('reserv_to_update',JSON.stringify(reserv));
+    this.router.navigate(['/dashboard/reserv',{ create: false }]);
+  }
 
   showAlert(message:any,type:string){
     this.alert.type = type;

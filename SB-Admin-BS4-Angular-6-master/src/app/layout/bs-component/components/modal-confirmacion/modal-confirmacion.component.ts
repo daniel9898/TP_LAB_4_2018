@@ -13,9 +13,11 @@ export class ModalConfirmacionComponent implements OnInit {
 	  modalReference : any;
 	  view_msg : boolean = false;
     preferences : string;
+    modal_title : string;
+    @Input() create : boolean;
     @Input() reserv : any;
-    @Input() car_selected : any;
     @Input() default_destiny : any;
+    @Output() sendValidation : EventEmitter<any> = new EventEmitter<any>();
     @Output() sendResult : EventEmitter<any> = new EventEmitter<any>();
     alert = {
       type : '',
@@ -32,12 +34,13 @@ export class ModalConfirmacionComponent implements OnInit {
 
     open(content) {
         if(this.reserv.destiny == null || this.default_destiny == ''){
-           this.sendResult.emit(true);
+           this.sendValidation.emit(true);
            return ;
         }
 
-        this.preferences = this.car_selected != null ? `${this.car_selected.brand}-${this.car_selected.model}`
-                                                     : 'Ninguna.';
+        this.modal_title = this.create ? 'Reserva a Crear' : 'Datos Actualizados'
+        this.preferences = this.reserv.car_selected != null ? `${this.reserv.car_selected.brand}-${this.reserv.car_selected.model}`
+                                                            : 'Ninguna.';
 
         this.modalReference = this.modalService.open(content);
         this.modalReference.result.then((result) => {
@@ -46,32 +49,36 @@ export class ModalConfirmacionComponent implements OnInit {
 
     save(){
       this.spinner.show();
-      console.log(this.reserv);
       this.reserv.car_selected = this.reserv.car_selected != null ? this.reserv.car_selected._id : null;
-      this.reserv.date_created = new Date().toLocaleString();
-      this.createReserv();
-    
+      this.create ? this.createReserv() : this.updateReserv();
     }
 
     async createReserv(){
-
       try{
-        //this.reserv.hour = null; //SOLO TEST
+        this.reserv.date_created = new Date().toLocaleString();
         let result:any  = await this._reserv.save('reserv',this.reserv).toPromise();
-        console.log('ok',result);
         this.showAlert(result.message,'success');
+        this.sendResult.emit(true);
       }catch(e){
-        this.showAlert(e.error['message'] != null ? e.error['message'] : e.error ,'warning');
+        this.showAlert(e.error['message'] != null ? e.error['message'] : e.error ,'danger');
         console.log('error en crear la reserva',e);
       }
-
-      this.view_msg = true;
       this.spinner.hide();
-
+      this.view_msg = true;
     }
 
-    updateReserv(){
-
+    async updateReserv(){
+      console.log('modified ',this.reserv);
+      try{
+        await this._reserv.update('reserv',this.reserv).toPromise();
+        this.showAlert('Reserva Modificada Exitosamente !','success');
+        this.sendResult.emit(true);
+      }catch(e){
+        this.showAlert(e.error['message'] != null ? e.error['message'] : e.error ,'danger');
+        console.log('error ala actaulizar la reserva',e);
+      }
+      this.spinner.hide();
+      this.view_msg = true;
     }
 
     showAlert(message:any,type:string){

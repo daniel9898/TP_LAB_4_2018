@@ -1,11 +1,10 @@
-<fieldset class="form-group">
-    <button type="submit" class="btn btn-info btn-block" (click)="open(content)"  [disabled]="false">
-      Confirmar &nbsp;<i class="fas fa-car"></i> 
-    </button>
-</fieldset>
+<!--<button class="btn btn-primary" (click)="open(content)">Large modal</button>-->
+<button type="button" class="btn btn-danger" (click)="open(content)">
+<i class="fas fa-trash-alt"></i>
+</button>
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">
-        <h5 class="modal-title">{{ modal_title }} : </h5>
+        <h5 class="modal-title">¿ Esta seguro que desea cancelar la reserva ?</h5>
         <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -14,15 +13,14 @@
     	<p><strong>Cuando : </strong>{{ reserv.date }} {{ reserv.hour }}</p>
         <p><strong>Desde  : </strong>{{ reserv.origin }}</p>
         <p><strong>Hasta : </strong>{{ reserv.destiny }}</p>
-        <p><strong>Preferencia : </strong>{{ preferences }}</p>
         <p><strong>Precio Aproximado : </strong>$ {{ reserv.approx_price }}</p>
     </div>
     <div *ngIf="!view_msg" class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="c('Close click')">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="save()">Guardar</button>
+        <button type="button" class="btn btn-warning" (click)="c('Close click')">Volver</button>
+        <button type="button" class="btn btn-primary" (click)="deleteReserv()">Confirmar</button>
     </div>
     <div *ngIf="view_msg">
-        <ngb-alert [type]="alert.type" [dismissible]="false">
+        <ngb-alert *ngIf="alert.view" [type]="alert.type" [dismissible]="false">
           <strong>{{ alert.title }}</strong>{{ alert.message }}
         </ngb-alert>
     </div>

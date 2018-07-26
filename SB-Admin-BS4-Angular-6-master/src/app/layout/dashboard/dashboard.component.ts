@@ -2,7 +2,8 @@ import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { DirectionsRenderer } from '@ngui/map';
 import { GeocodeService } from '../../servicios/geocode/geocode.service';
-
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from "rxjs/Subscription";
 
 @Component({
     selector: 'app-dashboard',
@@ -72,15 +73,57 @@ export class DashboardComponent implements OnInit {
         message: ''
     };
 
- 
-    constructor(public _geocode:GeocodeService) {}
+    create : boolean = true;
+    reservSub : Subscription;
+    data : any;
+  
+    constructor(private _geocode:GeocodeService,
+                private act_router: ActivatedRoute,
+                private router: Router) {}
 
     ngOnInit() {
-        this.default_origin = 'Mi ubicación';
-        setTimeout(this.goMyUbication.bind(this),1000);
         this.directionsRendererDirective['initialized$'].subscribe( directionsRenderer => {
-           this.directionsRenderer = directionsRenderer;
+            this.directionsRenderer = directionsRenderer;
         });
+
+        this.reservSub = this.act_router.params.subscribe(
+          params => {
+            this.create = params['create'] != undefined ? false : true;
+            
+            if(this.create){
+                this.default_origin = 'Mi ubicación';
+                setTimeout(this.goMyUbication.bind(this),1000);
+            }else{
+               this.reserv = JSON.parse(localStorage.getItem('reserv_to_update'));
+               setTimeout(this.setReservToUpdate.bind(this),1000);
+            }
+
+            this.data = {create: this.create, date: this.reserv.date, hour: this.reserv.hour};
+          },
+          error =>  console.log('error', error)
+        );
+
+    }
+
+    setReservToUpdate(){
+
+        this.default_origin = this.reserv.origin;
+        this.default_destiny = this.reserv.destiny;
+        this.center = new google.maps.LatLng(this.reserv.coord_origin.lat,this.reserv.coord_origin.lon);
+        this.marker_origin = this.center;
+        this.marker_destiny = new google.maps.LatLng(this.reserv.coord_destiny.lat,this.reserv.coord_destiny.lon);
+        this.direction.origin = this.center;
+        this.direction.destination = this.marker_destiny;
+
+        let date = this.reserv.date;
+        date = date.split('-');
+        this.selection.date = date[2] +'/'+ date[1] +'/'+ date[0];
+        this.selection.time = this.reserv.hour;
+      
+        this.showDirection();
+        if(this.reserv.car_selected != null){
+           this.preferences = `${this.reserv.car_selected.brand}-${this.reserv.car_selected.model}`;
+        }
     }
 
     showDirection() {
@@ -115,6 +158,7 @@ export class DashboardComponent implements OnInit {
     }
 
     removePolylines(){
+        console.log('this.line.length ',this.line.length);
         if(this.line.length > 0){
             for (var i = 0; i < this.line.length; i++) {
                 this.line[i].setMap(null);
@@ -124,8 +168,7 @@ export class DashboardComponent implements OnInit {
     }
 
     placeChanged(place:any, type:string) {
-        console.log("placeChanged :  ",place,type);
-        
+     
         if(place['geometry'] != null){
 
             this.setDataLocation(place,type);       
@@ -174,6 +217,18 @@ export class DashboardComponent implements OnInit {
       this.preferences = `${car.brand}-${car.model}`;
     }
 
+    takeValidation(emptyFields:boolean){
+        if(emptyFields){
+           this.showAlert('Faltan los siguientes campos : Destino','danger');
+        }
+    }
+
+    takeResult(success:boolean){
+        if(success){
+            this.router.navigate(['dashboard/mytrips']);
+        }
+    }
+
     goMyUbication(){
         navigator.geolocation.getCurrentPosition( pos => {
             this.default_origin = 'Mi ubicación';
@@ -199,19 +254,13 @@ export class DashboardComponent implements OnInit {
         }
     }
 
-    takeResultConfirm(emptyFields:boolean){
-        if(emptyFields){
-           this.showAlert('Faltan los siguientes campos : Destino','warning');
-        }
-    }
-
     showAlert(message:any,type:string,title?:string){
         this.alert.title = title;
         this.alert.type = type;
         this.alert.message = message;
         this.alert.view = true;
     }
-    
+
 }
 
 
