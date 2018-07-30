@@ -5,9 +5,11 @@ import { NgbCarouselModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { BsComponentModule } from '../bs-component/bs-component.module';
+import { ListModule } from '../../shared/modules/list/list.module';
+import { DetailsModule } from '../../shared/modules/details/details.module';
 import { DashboardComponent } from './dashboard.component';
 import { PageHeaderModule } from '../../shared/modules/page-header/page-header.module';
-import { NguiMapModule} from '@ngui/map';
+import { NguiMapModule } from '@ngui/map';
 import {
     TimelineComponent,
     NotificationComponent,
@@ -21,6 +23,8 @@ import { RouterComponent } from './router/router.component';
     imports: [
         CommonModule,
         PageHeaderModule,
+        ListModule,
+        DetailsModule,
         NgbCarouselModule.forRoot(),
         NgbAlertModule.forRoot(),
         FormsModule,

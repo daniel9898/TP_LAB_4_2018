@@ -15,20 +15,24 @@ export class CustomHttpService {
   	return this.http.get(`${this.url}${endPoint}`);        
   }
 
-  runGetWhitParam(endPoint: string, id: any){
-    return this.http.get(`${this.url}${endPoint}/${id}`); 
+  runGetWhitParam(endPoint: string, param: string){
+    return this.http.get(`${this.url}${endPoint}/${param}`); 
   }
 
-  runPost(endPoint: string, data: any){
-    return this.http.post(`${this.url}${endPoint}`, data, this.getHeaders());
+  runGetWhitParams(endPoint: string, p1: string, p2: string){
+    return this.http.get(`${this.url}${endPoint}/${p1}/${p2}`); 
   }
 
-  runDelete(endPoint: string, id: any, car: any){
-    return this.http.put(`${this.url}${endPoint}/${id}`, car, this.getHeaders());
+  runPost(endPoint: string, object: any){
+    return this.http.post(`${this.url}${endPoint}`, object, this.getHeaders());
   }
 
-  runUpdate(endPoint: string, id: any, car: any){
-    return this.http.put(`${this.url}${endPoint}/${id}`, car, this.getHeaders());
+  runDelete(endPoint: string, id: any, object: any){
+    return this.http.put(`${this.url}${endPoint}/${id}`, object, this.getHeaders());
+  }
+
+  runUpdate(endPoint: string, id: any, object: any){
+    return this.http.put(`${this.url}${endPoint}/${id}`, object, this.getHeaders());
   }
 
   runPostFormData(endPoint: string, file: any){

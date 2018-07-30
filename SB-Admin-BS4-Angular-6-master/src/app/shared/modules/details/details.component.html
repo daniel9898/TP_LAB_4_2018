@@ -1,0 +1,74 @@
+<app-page-header [heading]="toogleHeader" [icon]="'fa-edit'"></app-page-header>
+<div class="row">
+	<div class="col-lg-6">
+		<p><strong>Cliente : </strong>{{ reserv.client.lastName }} {{ reserv.client.name }}</p>
+		<p><strong>Cuando : </strong>{{ reserv.date }} {{ reserv.hour }}</p>
+	    <p><strong>Desde  : </strong>{{ reserv.origin }}</p>
+	    <p><strong>Hasta : </strong>{{ reserv.destiny }}</p>
+	    <p><strong>Precio Aproximado : </strong>$ {{ reserv.approx_price }}</p>
+	</div>
+	<div class="col-lg-6">
+		 <p><strong>Preferencias : </strong>{{ car_selected }}</p>
+		<fieldset class="form-group">
+			<p><strong>Conductor : </strong>{{ driver_name }}</p>
+		</fieldset>
+        
+        <div class="row">
+        	<div class="col-md-8">
+        	   <fieldset class="form-group">
+		          <select  class="form-control" 
+		                   (change)="changeDriver()" 
+		                   [(ngModel)]="id_driver">
+		            <option *ngFor="let dri of drivers" [value]="dri._id">{{dri.lastName}} {{dri.name}}
+		            </option>
+		          </select>
+		        </fieldset>
+        		
+        	</div>
+        	<div class="col-md-4">
+        		<fieldset class="form-group">
+        		  <button type="button" class="btn btn-primary" (click)="save()">
+        		   Asignar&nbsp;<i class="fas fa-thumbtack"></i>
+        		 </button>
+        		</fieldset> 
+        	</div>
+
+        	
+        </div>
+
+	</div>
+</div>
+<div class="row">
+	<div class="col-lg-6">
+		<ngui-map [center]="center">
+		   <marker [position]="marker_destiny"></marker>
+		   <marker [position]="marker_origin"></marker>
+		   <directions-renderer
+		    [suppressMarkers]="true"
+		    [draggable]="false"
+		    panel="#my-panel"
+		    [directions-request]="direction">
+		  </directions-renderer>
+		</ngui-map>
+	</div>
+	<div class="col-lg-6">
+	   <div id="my-panel"></div>
+	</div>
+</div>
+
+
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h5 class="modal-title">¿ Esta seguro que desea cancelar la reserva ?</h5>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</ng-template>
+
+
+
+<!--<ngx-spinner size="large"></ngx-spinner>-->

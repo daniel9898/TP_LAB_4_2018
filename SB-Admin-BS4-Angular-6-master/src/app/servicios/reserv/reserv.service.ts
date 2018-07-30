@@ -12,8 +12,8 @@ export class ReservService {
     return this.miHttp.runGet(endPoint);
   }
 
-  getAllbyIdClient(endPoint: string, id:any){
-    return this.miHttp.runGetWhitParam(endPoint,id);
+  getAllbyCondition(endPoint:string, id:any, state:string){
+    return this.miHttp.runGetWhitParams(endPoint, id, state);
   }
 
   save(endPoint: string, data: any){

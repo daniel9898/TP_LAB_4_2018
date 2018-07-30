@@ -26,7 +26,7 @@ export class ReservListComponent implements OnDestroy {
 
   getReservs(){
   	let id = JSON.parse(localStorage.getItem('user')).user._id;
-    this.listSub = this._reserv.getAllbyIdClient('reservsbyclient',id).subscribe(
+    this.listSub = this._reserv.getAllbyCondition('reserv/filter',id,'pendiente').subscribe(
       (resp:any) => this.list = resp.reservs,
       error => {
         this.showAlert(error.error.message,'warning');

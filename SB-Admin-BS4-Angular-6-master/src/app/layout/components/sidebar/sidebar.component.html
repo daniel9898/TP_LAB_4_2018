@@ -1,31 +1,56 @@
 <nav class="sidebar" [ngClass]="{sidebarPushRight: isActive}">
     <div class="list-group">
-
-        <a *ngIf="profile == 'admin' || profile == 'cliente'" routerLink="/dashboard/reserv" 
-        [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-dashboard"></i>&nbsp; Reservar
+        <!-- admin solo test -->
+        <a *ngIf="profile == 'admin' || profile == 'cliente'" [routerLink]="['/dashboard/reserv']" 
+           [routerLinkActive]="['router-link-active']" class="list-group-item">
+           &nbsp;<i class="fas fa-map-marked-alt"></i>&nbsp;&nbsp; Reservar
         </a>
 
-        <a *ngIf="profile == 'admin'" [routerLink]="['/charts']" 
-        [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp; Estadisticas
+        <!-- admin solo test -->
+        <a *ngIf="profile == 'admin' || profile == 'cliente'" 
+           [routerLink]="['/dashboard/myreservs']" 
+           [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fa fa-fw fa-table"></i>&nbsp; Mis Reservas
         </a>
 
-        <a *ngIf="profile == 'admin' || profile == 'cliente'" [routerLink]="['/dashboard/mytrips']" 
-        [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-table"></i>&nbsp; Mis Viajes
+        <a *ngIf="profile == 'cliente'" 
+           [routerLink]="['/dashboard/history/client',{button:'Historial', profile:'cliente'}]" 
+           [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fa fa-fw fa-desktop"></i>&nbsp; Historial
         </a>
 
-        <a *ngIf="profile == 'admin' || profile == 'chofer'" [routerLink]="['/bs-element']" 
-        [routerLinkActive]="['router-link-active']" class="list-group-item">
-            <i class="fa fa-fw fa-desktop"></i>&nbsp; Elementos Boots
+        <a *ngIf="profile == 'chofer'" 
+           [routerLink]="['/dashboard/history/driver',{button:'Historial', profile:'chofer'}]" 
+           [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fa fa-fw fa-desktop"></i>&nbsp; Historial
+        </a>
+
+        <a *ngIf="profile == 'chofer'" 
+           [routerLink]="['/dashboard/assignments',{button:'Asignaciones'}]"  
+           [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fa fa-fw fa-desktop"></i>&nbsp; Asignaciones
         </a>
 
         <ng-container *ngIf="profile == 'admin'">
+            <a [routerLink]="['/charts']" 
+              [routerLinkActive]="['router-link-active']" class="list-group-item">
+              <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp; Estadisticas
+            </a>
 
-            <a  [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" 
-            class="list-group-item">
-                <i class="fa fa-th-list"></i>&nbsp; Componentes
+            <a [routerLink]="['/dashboard/trips',{button: 'Viajes'}]" 
+              [routerLinkActive]="['router-link-active']" class="list-group-item">
+              <i class="fa fa-fw fa-bar-chart-o"></i>&nbsp; Viajes
+            </a>
+
+            <a [routerLink]="['/dashboard/assign',{button: 'Asignar'}]" 
+               [routerLinkActive]="['router-link-active']" 
+               class="list-group-item">
+              &nbsp;<i class="fa far fa-calendar-plus"></i>&nbsp;Asignar
+            </a>
+
+            <a [routerLink]="['/components']" [routerLinkActive]="['router-link-active']" 
+               class="list-group-item">
+               <i class="fa fa-th-list"></i>&nbsp; Componentes
             </a>
 
             <div class="nested-menu">

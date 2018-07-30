@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { routerTransition } from '../../router.animations';
 import { DirectionsRenderer } from '@ngui/map';
 import { GeocodeService } from '../../servicios/geocode/geocode.service';
@@ -92,10 +92,10 @@ export class DashboardComponent implements OnInit {
             
             if(this.create){
                 this.default_origin = 'Mi ubicación';
-                setTimeout(this.goMyUbication.bind(this),1000);
+                setTimeout(this.goMyUbication.bind(this),1300);
             }else{
                this.reserv = JSON.parse(localStorage.getItem('reserv_to_update'));
-               setTimeout(this.setReservToUpdate.bind(this),1000);
+               setTimeout(this.setReservToUpdate.bind(this),1300);
             }
 
             this.data = {create: this.create, date: this.reserv.date, hour: this.reserv.hour};

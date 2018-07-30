@@ -12,6 +12,15 @@ export class UsuariosService {
     return this.miHttp.runGet(endPoint);
   }
 
+
+  getAllbyProfile(endPoint: string, profile:string){
+    return this.miHttp.runGetWhitParam(endPoint, profile);
+  }
+
+  getDriversAvailable(endPoint: string, profile:string){
+    //return this.miHttp.runGetWhitParams(endPoint, profile);
+  }
+
   save(endPoint: string, data: any){
     return this.miHttp.runPost(endPoint, data);
   }
