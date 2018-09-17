@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from "rxjs/Subscription";
 import { DirectionsRenderer } from '@ngui/map';
 import { UsuariosService } from '../../../servicios/user/usuarios.service';
+import { TripService } from '../../../servicios/trip/trip.service';
 
 @Component({
   selector: 'app-details',
@@ -19,15 +20,25 @@ export class DetailsComponent implements OnInit {
 
     drivers : any;
     driver_name :string = 'Sin asignar';
-    id_driver : string = 'Seleccionar';
+    driver_id : string = 'Seleccionar';
     car_selected : string;
     center: any;
     marker_origin : any;
     marker_destiny : any;
     direction: any;
+
+    alert = {
+        view : false,
+        type : '',
+        title : 'Informe',
+        message: 'test 01'
+    };
+
+    block_button : boolean = false;
   
     constructor(private act_router: ActivatedRoute,
-    	        public _user: UsuariosService) {  }
+    	        private _user: UsuariosService,
+                private _trip: TripService) {  }
 
   	getUser(){
 		return JSON.parse(localStorage.getItem('user')).user;
@@ -49,12 +60,12 @@ export class DetailsComponent implements OnInit {
     async defineDetailToRender(params:any){
     	this.action = params.action;
     	if(this.action == 'Asignar'){
+            
     	   this.reserv = JSON.parse(params.reserv);
     	   console.log('reserva', this.reserv);
     	   this.car_selected = this.reserv.car_selected != null ? `${this.reserv.car_selected.brand}-${this.reserv.car_selected.model}` : 'Ninguna.';  
-    	   let resp : any = await this._user.getAllbyProfile('users/profile','chofer').toPromise();
-    	   this.drivers = resp.users;
-    	   console.log('choferes ', this.drivers); 
+    	   this.drivers = await this._user.getAvailablesDrivers('drivers',this.reserv.hour,this.reserv.date).toPromise();
+    	   console.log('choferes disponibles', this.drivers); 
     	   this.header = 'Asigne un conductor';
     	   	
     	}
@@ -62,7 +73,31 @@ export class DetailsComponent implements OnInit {
     }
 
     changeDriver(){
-        console.log('driver ',this.id_driver);
+        console.log('driver ',this.driver_id);
+    }
+
+    async assignDriver(){
+        console.log(this.driver_id);
+        if(this.driver_id === 'Seleccionar'){
+           this.showAlert('No a seleccionado ningún chofer para este viaje' ,'warning');
+        }else{
+            let trip = {
+                reservation : this.reserv._id,
+                driver : this.driver_id,
+                date_created : new Date().toLocaleString()
+            }
+
+            try{
+              console.log('VIAJE A CREAR : ',trip);
+              let resp :any = await this._trip.save('trips',trip).toPromise(); 
+              this.block_button = true;
+              this.showAlert(resp.message, 'success');
+            }catch(e){
+              this.showAlert(e.message, 'danger');
+            }
+            
+        }
+
     }
 
     setMap(){ //si es un viaje la reserva esta adentro
@@ -77,6 +112,13 @@ export class DetailsComponent implements OnInit {
 	            travelMode: 'DRIVING'
     	    }
     	//}
+    }
+
+    showAlert(message:any,type:string){
+        this.alert.type = type;
+        this.alert.message = message;
+        this.alert.title = 'Informe : ';
+        this.alert.view = true;
     }
 
     get toogleHeader(){

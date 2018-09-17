@@ -8,7 +8,7 @@
 	    <p><strong>Precio Aproximado : </strong>$ {{ reserv.approx_price }}</p>
 	</div>
 	<div class="col-lg-6">
-		 <p><strong>Preferencias : </strong>{{ car_selected }}</p>
+		<p><strong>Preferencias : </strong>{{ car_selected }}</p>
 		<fieldset class="form-group">
 			<p><strong>Conductor : </strong>{{ driver_name }}</p>
 		</fieldset>
@@ -18,7 +18,7 @@
         	   <fieldset class="form-group">
 		          <select  class="form-control" 
 		                   (change)="changeDriver()" 
-		                   [(ngModel)]="id_driver">
+		                   [(ngModel)]="driver_id">
 		            <option *ngFor="let dri of drivers" [value]="dri._id">{{dri.lastName}} {{dri.name}}
 		            </option>
 		          </select>
@@ -27,14 +27,17 @@
         	</div>
         	<div class="col-md-4">
         		<fieldset class="form-group">
-        		  <button type="button" class="btn btn-primary" (click)="save()">
+        		  <button type="button" class="btn btn-primary" [disabled]="block_button" 
+        		  (click)="assignDriver()">
         		   Asignar&nbsp;<i class="fas fa-thumbtack"></i>
         		 </button>
         		</fieldset> 
         	</div>
-
-        	
         </div>
+        
+		<ngb-alert *ngIf="alert.view" [type]="alert.type"  [dismissible]="false">
+		  <strong>{{ alert.title }}</strong>{{ alert.message }}
+		</ngb-alert>
 
 	</div>
 </div>
@@ -55,10 +58,6 @@
 	   <div id="my-panel"></div>
 	</div>
 </div>
-
-
-
-
 
 <ng-template #content let-c="close" let-d="dismiss">
     <div class="modal-header">

@@ -1,7 +1,7 @@
 <!--<button class="btn btn-primary" (click)="open(content)">Large modal</button>-->
 <fieldset class="form-group">
     <button type="submit" class="btn btn-success btn-block"
-       [disabled]="false" (click)="open(content)">
+       [disabled]="reserv.destiny == null || reserv.origin == null" (click)="open(content)">
       Preferencias &nbsp;<i class="fas fa-star-half-alt"></i> 
     </button>
 </fieldset>
@@ -68,27 +68,6 @@
 	        </div>
 	    </ng-template>
 	</p-dataView>
-
-		<!--<p-dialog header="Car Details" [(visible)]="displayDialog" [responsive]="true" 
-		showEffect="fade" [modal]="true" width="225" (onAfterHide)="onDialogHide()">
-		    <div class="ui-g" *ngIf="selectedCar">
-		        <div class="ui-g-12" style="text-align:center">
-		            <img [src]="selectedCar.pictures" height="100" width="100">
-		        </div>
-		        <div class="ui-g-4">Modelo: </div>
-		        <div class="ui-g-8">{{selectedCar.model}}</div>
-
-		        <div class="ui-g-4">Año: </div>
-		        <div class="ui-g-8">{{selectedCar.year}}</div>
-
-		        <div class="ui-g-4">Marca: </div>
-		        <div class="ui-g-8">{{selectedCar.brand}}</div>
-
-		        <div class="ui-g-4">Personas: </div>
-		        <div class="ui-g-8">{{selectedCar.number_people}}</div>
-		    </div>
-		</p-dialog>-->
-
 
   </div>
 </ng-template>

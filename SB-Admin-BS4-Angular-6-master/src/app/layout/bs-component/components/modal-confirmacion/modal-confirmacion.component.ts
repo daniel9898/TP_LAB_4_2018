@@ -51,10 +51,13 @@ export class ModalConfirmacionComponent implements OnInit {
       this.spinner.show();
       this.reserv.car_selected = this.reserv.car_selected != null ? this.reserv.car_selected._id : null;
       this.create ? this.createReserv() : this.updateReserv();
+      
     }
 
     async createReserv(){
       try{
+        console.log('RESERVA A CREAR');
+        console.table(this.reserv);
         this.reserv.date_created = new Date().toLocaleString();
         let result:any  = await this._reserv.save('reserv',this.reserv).toPromise();
         this.showAlert(result.message,'success');
@@ -68,7 +71,8 @@ export class ModalConfirmacionComponent implements OnInit {
     }
 
     async updateReserv(){
-      console.log('modified ',this.reserv);
+      console.log('RESERVA A MODIFICAR');
+      console.table(this.reserv);
       try{
         await this._reserv.update('reserv',this.reserv).toPromise();
         this.showAlert('Reserva Modificada Exitosamente !','success');
@@ -85,6 +89,6 @@ export class ModalConfirmacionComponent implements OnInit {
       this.alert.type = type;
       this.alert.message = message;
       this.alert.title = 'Informe : ';
-  }
+    }
 
 }

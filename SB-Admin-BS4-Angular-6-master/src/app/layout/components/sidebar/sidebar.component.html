@@ -13,22 +13,22 @@
            <i class="fa fa-fw fa-table"></i>&nbsp; Mis Reservas
         </a>
 
-        <a *ngIf="profile == 'cliente'" 
-           [routerLink]="['/dashboard/history/client',{button:'Historial', profile:'cliente'}]" 
-           [routerLinkActive]="['router-link-active']" class="list-group-item">
-           <i class="fa fa-fw fa-desktop"></i>&nbsp; Historial
-        </a>
-
-        <a *ngIf="profile == 'chofer'" 
-           [routerLink]="['/dashboard/history/driver',{button:'Historial', profile:'chofer'}]" 
-           [routerLinkActive]="['router-link-active']" class="list-group-item">
-           <i class="fa fa-fw fa-desktop"></i>&nbsp; Historial
-        </a>
-
         <a *ngIf="profile == 'chofer'" 
            [routerLink]="['/dashboard/assignments',{button:'Asignaciones'}]"  
            [routerLinkActive]="['router-link-active']" class="list-group-item">
-           <i class="fa fa-fw fa-desktop"></i>&nbsp; Asignaciones
+           <i class="fas fa-car"></i> &nbsp; Asignaciones
+        </a>
+
+        <a *ngIf="profile == 'cliente'" 
+           [routerLink]="['/dashboard/history/client',{button:'Historial'}]" 
+           [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fas fa-history"></i>&nbsp; Historial
+        </a>
+
+        <a *ngIf="profile == 'chofer'" 
+           [routerLink]="['/dashboard/history/driver',{button:'Historial'}]" 
+           [routerLinkActive]="['router-link-active']" class="list-group-item">
+           <i class="fas fa-history"></i>&nbsp; Historial
         </a>
 
         <ng-container *ngIf="profile == 'admin'">

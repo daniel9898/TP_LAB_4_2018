@@ -43,7 +43,8 @@
 
             <div class="row">
                 <div class="col-lg-6">
-                    <app-modal-preferencias (sendCar)="takeCar($event)"></app-modal-preferencias>
+                    <app-modal-preferencias [reserv]="reserv" (sendCar)="takeCar($event)">
+                    </app-modal-preferencias>
                 </div>
                 <div class="col-lg-6">
                     <app-modal-confirmacion 

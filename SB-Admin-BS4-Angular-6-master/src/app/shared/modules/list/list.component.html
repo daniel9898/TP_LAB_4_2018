@@ -49,14 +49,14 @@
 	  <tbody>
 	    <tr *ngFor="let trip of list; let i = index">
 		    <th scope="row">{{ i + 1 }}</th>
-		    <td>{{ trip.date }}</td>
-		    <td>{{ trip.hour }}</td>
-		    <td>{{ trip.origin }}</td>
-		    <td>{{ trip.destiny }}</td>
-		    <td>{{ trip.state }}</td>
-		    <td>${{ trip.approx_price }}</td>
+		    <td>{{ trip.reservation.date }}</td>
+		    <td>{{ trip.reservation.hour }}</td>
+		    <td>{{ trip.reservation.origin }}</td>
+		    <td>{{ trip.reservation.destiny }}</td>
+		    <td>{{ trip.reservation.state }}</td>
+		    <td>${{ trip.reservation.approx_price }}</td>
 		    <td>
-			  <button type="button" class="btn btn-warning" (click)="goToTripView(reserv)">
+			  <button type="button" class="btn btn-warning" (click)="goToTripView(trip)">
 			  	<i class="far fa-eye"></i>
 			  </button>
 			</td>

@@ -4,6 +4,7 @@ import { DirectionsRenderer } from '@ngui/map';
 import { GeocodeService } from '../../servicios/geocode/geocode.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from "rxjs/Subscription";
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-dashboard',
@@ -28,6 +29,8 @@ export class DashboardComponent implements OnInit {
     reserv : any = {
         date : null,
         hour : null,
+        ending_date : null,
+        ending_hour : null,
         origin : null,
         destiny : null,
         coord_origin : {
@@ -130,6 +133,8 @@ export class DashboardComponent implements OnInit {
         this.directionsRendererDirective['showDirections'](this.direction);
     }
 
+
+
     directionsChanged() {
         this.directionsResult = this.directionsRenderer.getDirections();
         console.log("directionsChanged :  ",this.directionsResult);
@@ -139,6 +144,7 @@ export class DashboardComponent implements OnInit {
     
             this.reserv.kilometers = this.directionsResult.routes[0].legs[0].distance.text;
             this.reserv.duration = this.directionsResult.routes[0].legs[0].duration.text;
+            this.addEndingDate();
             this.reserv.approx_price = this.kilometer_price * this.reserv.kilometers.split(' ')[0];
             this.showAlert('Precio aproximado : $ '+this.reserv.approx_price,'info','');
             console.log(this.reserv.approx_price);
@@ -165,6 +171,30 @@ export class DashboardComponent implements OnInit {
             }
             this.line = [];
         }
+    }
+
+    addEndingDate(){
+
+      let duration = this.reserv.duration;
+      let time = duration.split(" ");
+
+      let init_date = moment(this.reserv.date +' '+this.reserv.hour);
+      console.log(' FECHA DE SALIDA : ',init_date.format("DD/MM/YYYY HH:mm"));
+      let minutes = 0;
+      let hours = 0;
+
+      if(time[2] != null){ //el tiempo tiene formato 0 h 00 min
+         minutes = time[2];
+         hours = time[0];
+      }else{ //el tiempo tiene formato 00 min
+         minutes = time[0];
+      }
+      let end = init_date.clone().add(hours,'hours').add(minutes,'minutes'); 
+      console.log(' FECHA DE LLEGADA : ',end.format("DD/MM/YYYY HH:mm"));
+      let date = end.format("YYYY-MM-DD HH:mm").split(' ');
+      this.reserv.ending_date = date[0];
+      this.reserv.ending_hour = date[1];
+     
     }
 
     placeChanged(place:any, type:string) {
@@ -202,11 +232,15 @@ export class DashboardComponent implements OnInit {
     }
 
     takeTime(time:any){
+        time.hour = ("0" + time.hour).slice(-2);
+        time.minute = ("0" + time.minute).slice(-2);
         this.selection.time = time.hour +':'+ time.minute;
         this.reserv.hour = this.selection.time;
     }
 
     takeDate(date:any){
+        date.day = ("0" + date.day).slice(-2);
+        date.month = ("0" + date.month).slice(-2);
         this.selection.date = date.day +'/'+ date.month +'/'+ date.year;
         this.reserv.date =  date.year +'-'+ date.month +'-'+ date.day;
     }
@@ -225,7 +259,7 @@ export class DashboardComponent implements OnInit {
 
     takeResult(success:boolean){
         if(success){
-            this.router.navigate(['dashboard/mytrips']);
+            this.router.navigate(['dashboard/myreservs']);
         }
     }
 

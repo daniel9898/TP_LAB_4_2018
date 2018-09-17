@@ -23,6 +23,7 @@ export class ListComponent implements OnInit {
 		        private _reserv: ReservService) {}
 
 	ngOnInit() {
+	    this.user = JSON.parse(localStorage.getItem('user')).user;
 	    this.paramSubs = this.act_router.params.subscribe(
 		    params => {
 		        this.action = params.button;
@@ -39,11 +40,20 @@ export class ListComponent implements OnInit {
 		console.log('listar : ',this.action);
 		try{
 
-		    if(this.action == 'Asignar'){
-		       this.endPoint = 'reserv/filter';
+		    if(this.action === 'Asignar'){
+		       this.endPoint = 'reserv';
 		       this.getReservs();
-			}else{
-          
+			}
+			if(this.action === 'Viajes' && this.user.profile === 'admin'){
+			   this.endPoint = 'trips';
+		       this.getAlltrips();
+			}
+			if(this.action === 'Asignaciones'){
+			   this.endPoint = 'trips';
+               this.getAssignedTrips();
+			}
+		    if(this.action === 'Historial'){
+				
 			}
 
 		}catch(e){
@@ -52,8 +62,17 @@ export class ListComponent implements OnInit {
 
 	}
 
-	goToTripView(trip:any){
+	async getAssignedTrips(){
+	   let resp : any = await this._trip.getAssigned(this.endPoint,this.user._id,'pendiente').toPromise();
+       this.list = resp.trips;
+       console.log('VIAJES ASIGNADOS: ',this.list);
 
+	}
+
+	async getAlltrips(){
+	   let resp : any = await this._trip.getAll(this.endPoint).toPromise();
+       this.list = resp.trips;
+       console.log('VIAJES : ',this.list);
 	}
 
 	async getReservs(){
@@ -66,10 +85,9 @@ export class ListComponent implements OnInit {
        this.router.navigate(['dashboard/view/assign',{reserv: JSON.stringify(reserv), action:this.action}]);
 	}
 
-	getTrips(state:string){
+	goToTripView(trip:any){
 
 	}
-
 
 
 }

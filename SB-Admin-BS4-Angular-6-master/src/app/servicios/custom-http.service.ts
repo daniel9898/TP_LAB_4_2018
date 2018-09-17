@@ -23,6 +23,10 @@ export class CustomHttpService {
     return this.http.get(`${this.url}${endPoint}/${p1}/${p2}`); 
   }
 
+  runGetWhitFilters(endPoint: string, filters : any){
+    return this.http.get(`${this.url}${endPoint}`,{params: filters}); 
+  }
+
   runPost(endPoint: string, object: any){
     return this.http.post(`${this.url}${endPoint}`, object, this.getHeaders());
   }

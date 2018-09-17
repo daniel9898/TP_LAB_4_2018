@@ -17,8 +17,8 @@ export class UsuariosService {
     return this.miHttp.runGetWhitParam(endPoint, profile);
   }
 
-  getDriversAvailable(endPoint: string, profile:string){
-    //return this.miHttp.runGetWhitParams(endPoint, profile);
+  getAvailablesDrivers(endPoint: string, hour:string, date:string){
+    return this.miHttp.runGetWhitParams(endPoint, hour, date);
   }
 
   save(endPoint: string, data: any){

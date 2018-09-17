@@ -12,6 +12,10 @@ export class CarService {
     return this.miHttp.runGet(endPoint);
   }
 
+  notAvailables(endPoint: string, filter : any){
+    return this.miHttp.runGetWhitFilters(endPoint, filter);
+  }
+
   save(endPoint: string, data: any){
     return this.miHttp.runPost(endPoint, data);
   }

@@ -8,7 +8,7 @@ import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 })
 export class TimepickerComponent implements OnInit {
 
-    defaultTime = { hour: 0, minute: 0 };
+    defaultTime = { hour: '', minute: '' };
     @Output() sendTime : EventEmitter<any> = new EventEmitter<any>();
     @Input() data : any;
     
@@ -17,11 +17,14 @@ export class TimepickerComponent implements OnInit {
     ngOnInit(){
         if(this.data.create){
             let date = new Date();
-            this.defaultTime.hour = date.getHours();
-            this.defaultTime.minute = date.getMinutes();
-
+            let hour = date.getHours();
+            let minutes = date.getMinutes();
+            this.defaultTime.hour = ("0" + hour).slice(-2);
+            this.defaultTime.minute = ("0" + minutes).slice(-2);
+         
             this.sendTime.emit(this.defaultTime);
         }else{
+
             let time = this.data.hour.split(':');
             this.defaultTime.hour = time[0];
             this.defaultTime.minute = time[1];
